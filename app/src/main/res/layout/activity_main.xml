@@ -11,9 +11,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <TextView android:text="Hello World!" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
         <SeekBar
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -22,6 +19,93 @@
             android:focusableInTouchMode="false"
             android:thumb="@drawable/blue_circle"
             android:theme="@style/Base.Theme.AppCompat.Light" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView8"
+                android:layout_weight="10" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="390">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/textView1"
+                    android:layout_weight="25"
+                    android:alpha="80" />
+
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:text="New Text"
+                    android:id="@+id/spinner2"
+                    android:layout_weight="16"
+                    android:background="#6A9070" />
+
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:text="New Text"
+                    android:id="@+id/spinner3"
+                    android:layout_weight="8"
+                    android:background="#046A90" />
+
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:text="New Text"
+                    android:id="@+id/spinner4"
+                    android:layout_weight="16"
+                    android:background="#6A9070" />
+
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:text="New Text"
+                    android:id="@+id/spinner5"
+                    android:layout_weight="6"
+                    android:background="#046A90" />
+
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:text="New Text"
+                    android:id="@+id/spinner6"
+                    android:layout_weight="8"
+                    android:background="#6A9070" />
+
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:text="New Text"
+                    android:id="@+id/spinner7"
+                    android:layout_weight="16"
+                    android:background="#046A90" />
+
+                <Spinner
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:id="@+id/spinner"
+                    android:layout_weight="7"
+                    android:background="#6A9070" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView9"
+                android:layout_weight="10" />
+        </LinearLayout>
 
         <Button
             android:layout_width="wrap_content"

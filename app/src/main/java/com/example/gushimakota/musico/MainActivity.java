@@ -10,21 +10,30 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.Parse;
 import com.parse.ParseObject;
 
+import java.io.IOException;
+
+import static com.example.gushimakota.musico.R.raw.musico_pro_a_6563456_long;
+
 public class MainActivity extends AppCompatActivity{
 
+    private String item;
     private SeekBar progressBar;
     private MediaPlayer mediaPlayer;
+    private MediaPlayer chord1;
+    private MediaPlayer chord2;
     private Button btStart;
-    private Button btStop;
     private Handler handler;
     private int timeProgress;
     private boolean startBool = false;
     private boolean runBool = false;
+    private TextView textView;
+    private boolean playChord1 = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,24 +50,22 @@ public class MainActivity extends AppCompatActivity{
 //        testObject.saveInBackground();
 
         mediaPlayer = MediaPlayer.create(this, R.raw.musico_pro);
-
-
+        textView = (TextView)findViewById(R.id.textView);
         progressBar = (SeekBar) findViewById(R.id.seekBar);
         // 水平プログレスバーの最大値を設定します
         progressBar.setMax(mediaPlayer.getDuration());
         // 水平プログレスバーの値を設定します
         progressBar.setProgress(0);
         btStart = (Button)findViewById(R.id.bt_start);
-        btStop = (Button)findViewById(R.id.bt_stop);
         btStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mediaPlayer.isPlaying()) {
                     btStart.setText("Start");
                     mediaPlayer.pause();
+                    chord1.pause();
                     runBool = false;
                 }else{
-
                     btStart.setText("Pause");
                     if (startBool == false || timeProgress == mediaPlayer.getDuration()) {
                         try {
@@ -69,20 +76,17 @@ public class MainActivity extends AppCompatActivity{
                             startBool = true;
                             runBool = true;
                             mediaPlayer.seekTo(timeProgress);
-                            mediaPlayer.start();
+                            playChord1 = true;
                             runTimeBar();
                         }
+                    }
+                    if (playChord1) {
+                        chord1.seekTo(timeProgress+180);
+                        chord1.start();
                     }
                     mediaPlayer.start();
                     runBool = true;
                 }
-            }
-        });
-
-        btStop.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
             }
         });
 
@@ -110,19 +114,29 @@ public class MainActivity extends AppCompatActivity{
                         btStart.setText("Pause");
                         mediaPlayer.seekTo(timeProgress);
                         mediaPlayer.start();
+                        chord1.seekTo(timeProgress+180);
+                        chord1.start();
+                        playChord1 = true;
                         runTimeBar();
                         runBool = true;
                     }
                 }
         );
+
+        //spinnerの処理
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // アイテムを追加します
-        adapter.add("red");
-        adapter.add("green");
-        adapter.add("blue");
+        // アイテム追加
+        adapter.add("1");
+        adapter.add("2");
+        adapter.add("3");
+        adapter.add("4");
+        adapter.add("5");
+        adapter.add("6");
+        adapter.add("7");
+        adapter.add("8");
         Spinner spinner = (Spinner) findViewById(R.id.spinner2);
-        // アダプターを設定します
+        // アダプター設定
         spinner.setAdapter(adapter);
         // スピナーのアイテムが選択された時に呼び出されるコールバックリスナーを登録します
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -131,25 +145,77 @@ public class MainActivity extends AppCompatActivity{
                                        int position, long id) {
                 Spinner spinner = (Spinner) parent;
                 // 選択されたアイテムを取得します
-                String item = (String) spinner.getSelectedItem();
+                item = (String) spinner.getSelectedItem();
                 Toast.makeText(MainActivity.this, item, Toast.LENGTH_LONG).show();
+                changeChord(item);
+
+
             }
             @Override
             public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
+        if (playChord1){
+            try {
+                chord1.prepare();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
-    private void runTimeBar(){
+    private void changeChord(String spin){
+        if (playChord1) {
+            chord1.reset();
+            chord1.release();
+        }
+        switch (spin){
+            case "1":
+                chord1 = MediaPlayer.create(this,R.raw.musico_pro_a_4563451_long_1);
+                break;
+            case "2":
+                chord1 = MediaPlayer.create(this,R.raw.musico_pro_a_6563456_alpe);
+                break;
+            case "3":
+                chord1 = MediaPlayer.create(this,R.raw.musico_pro_a_4563451_long);
+                break;
+            case "4":
+                chord1 = MediaPlayer.create(this,R.raw.musico_pro_a_4563451_alpe);
+                break;
+            case "5":
+                chord1 = MediaPlayer.create(this,R.raw.musico_pro_a_6351_long);
+                break;
+            case "6":
+                chord1 = MediaPlayer.create(this,R.raw.musico_pro_a_6351_alpe);
+                break;
+            case "7":
+                chord1 = MediaPlayer.create(this,R.raw.musico_pro_a_canon_long);
+                break;
+            case "8":
+                chord1 = MediaPlayer.create(this,R.raw.musico_pro_a_canon_alpe);
+                break;
+        }
+        playChord1 = true;
+    }
+
+    private void runTimeBar() {
         Thread t = new Thread() {
             @Override
             public void run() {
-                while (runBool&&mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition() >= 1) {
+                while (runBool && mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition() >= 1) {
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
+
                             progressBar.setProgress(mediaPlayer.getCurrentPosition());
+//                            if (playChord1&&mediaPlayer.getCurrentPosition() > 46000 && mediaPlayer.getCurrentPosition() < 74500) {
+//                                chord1.seekTo();
+//                                chord1.start();
+//                                playChord1 = false;
+//                            }
+
                         }
+
                     });
                 }
             }

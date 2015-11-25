@@ -17,8 +17,7 @@
             android:id="@+id/seekBar"
             android:layout_gravity="center"
             android:focusableInTouchMode="false"
-            android:thumb="@drawable/blue_circle"
-            android:theme="@style/Base.Theme.AppCompat.Light" />
+            android:thumb="@drawable/blue_circle"/>
 
         <LinearLayout
             android:orientation="horizontal"
@@ -114,12 +113,13 @@
             android:id="@+id/bt_start"
             android:layout_gravity="center_horizontal" />
 
-        <Button
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="STOP"
-            android:id="@+id/bt_stop"
+            android:text="New Text"
+            android:id="@+id/textView"
             android:layout_gravity="center_horizontal" />
+
     </LinearLayout>
 
 </RelativeLayout>

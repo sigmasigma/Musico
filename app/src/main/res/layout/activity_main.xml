@@ -9,7 +9,10 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true">
 
         <SeekBar
             android:layout_width="match_parent"
@@ -40,63 +43,63 @@
                     android:layout_width="0dp"
                     android:layout_height="25dp"
                     android:id="@+id/textView1"
-                    android:layout_weight="25"
-                    android:alpha="80" />
+                    android:layout_weight="46318"
+                    android:alpha="80"
+                    android:gravity="center" />
+
+                <!--android:text="part1"-->
+                <!--android:background="#A0A0A0"-->
 
                 <Spinner
                     android:layout_width="0dp"
                     android:layout_height="25dp"
-                    android:text="New Text"
                     android:id="@+id/spinner2"
-                    android:layout_weight="16"
-                    android:background="#6A9070" />
+                    android:layout_weight="28029"
+                    android:background="#6AD0E0"
+                    android:gravity="center" />
 
                 <Spinner
                     android:layout_width="0dp"
                     android:layout_height="25dp"
-                    android:text="New Text"
                     android:id="@+id/spinner3"
-                    android:layout_weight="8"
-                    android:background="#046A90" />
+                    android:layout_weight="14015"
+                    android:background="#E0D020"
+                    android:gravity="center" />
 
-                <Spinner
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="25dp"
-                    android:text="New Text"
                     android:id="@+id/spinner4"
-                    android:layout_weight="16"
-                    android:background="#6A9070" />
+                    android:layout_weight="28029"
+                    android:gravity="center" />
 
-                <Spinner
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="25dp"
-                    android:text="New Text"
                     android:id="@+id/spinner5"
-                    android:layout_weight="6"
-                    android:background="#046A90" />
+                    android:layout_weight="10511"
+                    android:gravity="center" />
 
-                <Spinner
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="25dp"
-                    android:text="New Text"
                     android:id="@+id/spinner6"
-                    android:layout_weight="8"
-                    android:background="#6A9070" />
+                    android:layout_weight="14015"
+                    android:gravity="center" />
 
-                <Spinner
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="25dp"
-                    android:text="New Text"
                     android:id="@+id/spinner7"
-                    android:layout_weight="16"
-                    android:background="#046A90" />
+                    android:layout_weight="28029"
+                    android:gravity="center" />
 
-                <Spinner
+                <TextView
                     android:layout_width="0dp"
                     android:layout_height="25dp"
                     android:id="@+id/spinner"
-                    android:layout_weight="7"
-                    android:background="#6A9070" />
+                    android:layout_weight="10511"
+                    android:gravity="center" />
             </LinearLayout>
 
             <TextView
@@ -113,12 +116,19 @@
             android:id="@+id/bt_start"
             android:layout_gravity="center_horizontal" />
 
-        <TextView
+        <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="New Text"
-            android:id="@+id/textView"
+            android:text="RecMode"
+            android:id="@+id/recModeBt"
             android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/debug"
+            android:layout_gravity="center" />
 
     </LinearLayout>
 

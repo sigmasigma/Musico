@@ -94,13 +94,14 @@ public class RecordActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     isRecording = true;
-                    clapPlay.setVisibility(View.VISIBLE);
+
                     clapmr.start();
                 } else {
                     clapRec.setText("RECORD");
                     try {
                         clapmr.stop();
                         claprecorded = true;
+                        clapPlay.setVisibility(View.VISIBLE);
                     } catch (RuntimeException e) {
                         clapmr.reset();
                     }

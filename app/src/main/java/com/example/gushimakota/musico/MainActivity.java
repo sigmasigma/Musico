@@ -8,6 +8,7 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -35,10 +36,12 @@ public class MainActivity extends AppCompatActivity {
     private int freeId = -1;
     private Button btStart;
     private Button recMode;
+    private Button debugBt;
     private Handler handler;
     private int timeProgress;
     private boolean startBool = false;
     private boolean runBool = false;
+    private boolean clappedBool;
     private String item1 = "";
     private String item2 = "";
 
@@ -72,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                     btStart.setText("Start");
                     mediaPlayer.pause();
                     runBool = false;
-                }else{
+                } else {
                     playing();
                 }
             }
@@ -93,13 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
                     public void onStopTrackingTouch(SeekBar seekBar) {
                         // ツマミを離したときに呼ばれ
-                        startBool = true;
-                        runBool = true;
-                        btStart.setText("Pause");
-                        mediaPlayer.seekTo(timeProgress);
-                        mediaPlayer.start();
-                        runTimeBar();
-                        runBool = true;
+                        playing();
                     }
                 }
         );
@@ -181,6 +178,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        debugBt = (Button)findViewById(R.id.debug);
+        debugBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                recData.play(clapId, 1.0F, 0.9F, 0, 0, 1.0F);
+            }
+        });
     }
 
     private void changeChord() {
@@ -295,13 +299,21 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 while (runBool && mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition() >= 1) {
+                    try {
+                        // 10ミリ秒待機
+                        Thread.sleep(50);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            progressBar.setProgress(mediaPlayer.getCurrentPosition());
-                            if (mediaPlayer.getCurrentPosition() == 87672) {
+                            timeProgress = mediaPlayer.getCurrentPosition();
+                            progressBar.setProgress(timeProgress);
+                            if (timeProgress >= 87872&&timeProgress <= 87922&&!clappedBool) {
                                 if (clapId > 0) {
                                     recData.play(clapId, 1.0F, 0.9F, 0, 0, 1.1F);
+                                    clappedBool = true;
                                 }
                             }
                         }
@@ -314,32 +326,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void playing() {
-        File clapFile = new File(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/clap.wav");
-        if (clapFile.exists()) {
-            clapId = recData.load(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/clap.wav", 1);
-        }
-        File noiseFile = new File(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/noise.wav");
-        if (noiseFile.exists()) {
-            noiseId = recData.load(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/noise.wav", 1);
-        }
-        File freeFile = new File(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/free.wav");
-        if (freeFile.exists()) {
-            freeId = recData.load(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/free.wav", 1);
-        }
         btStart.setText("Pause");
         if (startBool == false || timeProgress == mediaPlayer.getDuration()) {
             timeProgress = 0;
             progressBar.setProgress(0);
-            startBool = true;
-            runBool = true;
         }
         mediaPlayer.seekTo(timeProgress);
         mediaPlayer.start();
         runTimeBar();
+        clappedBool = false;
+        startBool = true;
         runBool = true;
     }
 
-    public void debugSound(View v){
+    @Override
+    public void onResume(){
+        super.onResume();
         File clapFile = new File(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/clap.wav");
         if (clapFile.exists()) {
             clapId = recData.load(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/clap.wav", 1);
@@ -352,6 +354,6 @@ public class MainActivity extends AppCompatActivity {
         if (freeFile.exists()) {
             freeId = recData.load(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/free.wav", 1);
         }
-        recData.play(clapId, 1.0F, 0.9F, 0, 0, 1.1F);
+        clappedBool = false;
     }
 }

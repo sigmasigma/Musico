@@ -185,6 +185,9 @@ public class MainActivity extends AppCompatActivity {
                 recData.play(clapId, 1.0F, 0.9F, 0, 0, 1.0F);
             }
         });
+
+        mediaPlayer.stop();
+
     }
 
     private void changeChord() {

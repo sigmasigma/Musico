@@ -52,12 +52,12 @@ public class MainActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        // Enable Local Datastore.
-//        Parse.enableLocalDatastore(this);
-//        Parse.initialize(this, "XB4hSQBay6VfK6ZRXTWVh3ir375cML7TOwXgt9mv", "EO4ZV6k2ZWxyiLqJj7LO9YxtAAbHwPrIKsH4LDG5");
-//        ParseObject testObject = new ParseObject("TestObject");
-//        testObject.put("foo", "bar");
-//        testObject.saveInBackground();
+//         Enable Local Datastore.
+        Parse.enableLocalDatastore(this);
+        Parse.initialize(this, "XB4hSQBay6VfK6ZRXTWVh3ir375cML7TOwXgt9mv", "EO4ZV6k2ZWxyiLqJj7LO9YxtAAbHwPrIKsH4LDG5");
+        ParseObject testObject = new ParseObject("TestObject");
+        testObject.put("foo", "bar");
+        testObject.saveInBackground();
 
         mediaPlayer = MediaPlayer.create(this, R.raw.a00);
 
@@ -196,6 +196,7 @@ public class MainActivity extends AppCompatActivity {
             switch (item1) {
                 case "NONE":
                     mediaPlayer = MediaPlayer.create(this, R.raw.a00);
+                    break;
                 case "1":
                     mediaPlayer = MediaPlayer.create(this, R.raw.a10);
                     break;

@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -35,6 +36,8 @@ public class RecordActivity extends AppCompatActivity {
     private String clapFilePath;
     private String noiseFilePath;
     private String freeFilePath;
+    private Handler handler;
+    private int countTime;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,8 @@ public class RecordActivity extends AppCompatActivity {
         noiseFilePath = Environment.getExternalStorageDirectory() + "/MusicoRecFolder/noise.wav";
         freeFilePath = Environment.getExternalStorageDirectory() + "/MusicoRecFolder/free.wav";
         createNewDir();
+
+        handler = new Handler();
 
         clapPlay.setVisibility(View.INVISIBLE);
         noisePlay.setVisibility(View.INVISIBLE);
@@ -86,7 +91,6 @@ public class RecordActivity extends AppCompatActivity {
                     //保存先
                     clapmr.setOutputFile(clapFilePath);
 
-                    clapRec.setText("Stop Rec");
                     //録音準備＆録音開始
                     try {
                         clapmr.prepare();
@@ -95,7 +99,9 @@ public class RecordActivity extends AppCompatActivity {
                     }
                     isRecording = true;
 
-                    clapmr.start();
+                    countTime = 3;
+                    clapRec.setText("3");
+                    runRecCount(clapRec, clapmr);
                 } else {
                     clapRec.setText("RECORD");
                     try {
@@ -139,8 +145,6 @@ public class RecordActivity extends AppCompatActivity {
                     noisemr.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
                     //保存先
                     noisemr.setOutputFile(noiseFilePath);
-
-                    noiseRec.setText("Stop Rec");
                     //録音準備＆録音開始
                     try {
                         noisemr.prepare();
@@ -148,7 +152,10 @@ public class RecordActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     isRecording = true;
-                    noisemr.start();
+
+                    countTime = 3;
+                    noiseRec.setText("3");
+                    runRecCount(noiseRec,noisemr);
                 } else {
                     noiseRec.setText("RECORD");
                     try {
@@ -191,16 +198,18 @@ public class RecordActivity extends AppCompatActivity {
                     freemr.setAudioEncoder(MediaRecorder.AudioEncoder.DEFAULT);
                     //保存先
                     freemr.setOutputFile(freeFilePath);
-
-                    freeRec.setText("Stop Rec");
                     //録音準備＆録音開始
                     try {
                         freemr.prepare();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
                     isRecording = true;
-                    freemr.start();
+
+                    countTime = 3;
+                    freeRec.setText("3");
+                    runRecCount(freeRec,freemr);
                 } else {
                     freeRec.setText("RECORD");
                     try {
@@ -224,6 +233,38 @@ public class RecordActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    private void runRecCount(final Button recBt, final MediaRecorder recorder) {
+        Thread t = new Thread() {
+            @Override
+            public void run() {
+                while (countTime>0) {
+                    try {
+                        // 1秒待機
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    handler.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            countTime-=1;
+                            if(countTime== 2){
+                                recBt.setText("2");
+                            }else if(countTime== 1){
+                                recBt.setText("1");
+                            }else if(countTime == 0){
+                                recBt.setText("recording");
+                                recorder.start();
+                            }
+                        }
+
+                    });
+                }
+            }
+        };
+        t.start();
     }
 
     private void  setSoundClap(){

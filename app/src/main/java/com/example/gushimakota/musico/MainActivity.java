@@ -8,22 +8,23 @@ import android.os.Environment;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parse.Parse;
+import com.parse.ParseFile;
 import com.parse.ParseObject;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
-
 
 
 public class MainActivity extends AppCompatActivity {
@@ -36,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private int freeId = -1;
     private Button btStart;
     private Button recMode;
-    private Button debugBt;
+    private Button sendBt;
     private Handler handler;
     private int timeProgress;
     private boolean startBool = false;
@@ -44,20 +45,17 @@ public class MainActivity extends AppCompatActivity {
     private boolean clappedBool;
     private String item1 = "";
     private String item2 = "";
+    private File clapFile;
+    private File noiseFile;
+    private File freeFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        handler = new Handler();
 
-//         Enable Local Datastore.
-        Parse.enableLocalDatastore(this);
-        Parse.initialize(this, "XB4hSQBay6VfK6ZRXTWVh3ir375cML7TOwXgt9mv", "EO4ZV6k2ZWxyiLqJj7LO9YxtAAbHwPrIKsH4LDG5");
-        ParseObject testObject = new ParseObject("TestObject");
-        testObject.put("foo", "bar");
-        testObject.saveInBackground();
+        handler = new Handler();
 
         mediaPlayer = MediaPlayer.create(this, R.raw.a00);
 
@@ -67,6 +65,20 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setMax(mediaPlayer.getDuration());
         progressBar.setProgress(0);
         btStart = (Button) findViewById(R.id.bt_start);
+
+        clapFile = new File(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/clap.wav");
+        if (clapFile.exists()) {
+            clapId = recData.load(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/clap.wav", 1);
+        }
+        noiseFile = new File(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/noise.wav");
+        if (noiseFile.exists()) {
+            noiseId = recData.load(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/noise.wav", 1);
+        }
+        freeFile = new File(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/free.wav");
+        if (freeFile.exists()) {
+            freeId = recData.load(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/free.wav", 1);
+        }
+        clappedBool = false;
 
         btStart.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -178,11 +190,37 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        debugBt = (Button)findViewById(R.id.debug);
-        debugBt.setOnClickListener(new View.OnClickListener() {
+        sendBt = (Button)findViewById(R.id.send);
+        sendBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 recData.play(clapId, 1.0F, 0.9F, 0, 0, 1.0F);
+
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                BufferedInputStream in = null;
+                try {
+                    in = new BufferedInputStream(new FileInputStream(clapFile));
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                int read;
+                byte[] buff = new byte[1024];
+                try {
+                    while ((read = in.read(buff)) > 0)
+                    {
+                        out.write(buff, 0, read);
+                    }
+
+                    out.flush();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                byte[] audioBytes = out.toByteArray();
+                ParseFile clap = new ParseFile("clap.wav", audioBytes);
+                ParseObject testObject = new ParseObject("TestObject");
+                testObject.put("clap", clap);
+                testObject.saveInBackground();
             }
         });
 
@@ -314,7 +352,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             timeProgress = mediaPlayer.getCurrentPosition();
                             progressBar.setProgress(timeProgress);
-                            if (timeProgress >= 87872&&timeProgress <= 87922&&!clappedBool) {
+                            if (timeProgress >= 87672&&timeProgress <= 87822) {
                                 if (clapId > 0) {
                                     recData.play(clapId, 1.0F, 0.9F, 0, 0, 1.1F);
                                     clappedBool = true;
@@ -346,18 +384,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onResume(){
         super.onResume();
-        File clapFile = new File(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/clap.wav");
+        clapFile = new File(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/clap.wav");
         if (clapFile.exists()) {
             clapId = recData.load(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/clap.wav", 1);
         }
-        File noiseFile = new File(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/noise.wav");
+        noiseFile = new File(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/noise.wav");
         if (noiseFile.exists()) {
             noiseId = recData.load(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/noise.wav", 1);
         }
-        File freeFile = new File(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/free.wav");
+        freeFile = new File(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/free.wav");
         if (freeFile.exists()) {
             freeId = recData.load(Environment.getExternalStorageDirectory() + "/MusicoRecFolder/free.wav", 1);
         }
         clappedBool = false;
+
     }
 }

@@ -14,6 +14,7 @@ import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import com.parse.Parse;
 import com.parse.ParseFile;
@@ -57,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
 
         handler = new Handler();
 
-        mediaPlayer = MediaPlayer.create(this, R.raw.a00);
+//        mediaPlayer = MediaPlayer.create(this, R.raw.a00);
 
         recData = new SoundPool(3, AudioManager.STREAM_MUSIC, 0);
         timeProgress = 0;
@@ -221,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
                 ParseObject testObject = new ParseObject("TestObject");
                 testObject.put("clap", clap);
                 testObject.saveInBackground();
+                Toast.makeText(getApplicationContext(), "Sending success!", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -231,103 +233,103 @@ public class MainActivity extends AppCompatActivity {
     private void changeChord() {
 //        mediaPlayer.stop();
         if (item2 == "NONE") {
-            switch (item1) {
-                case "NONE":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a00);
-                    break;
-                case "1":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a10);
-                    break;
-                case "2":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a20);
-                    break;
-                case "3":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a30);
-                    break;
-                case "4":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a40);
-                    break;
-                case "5":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a50);
-                    break;
-                case "6":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a60);
-                    break;
-                case "7":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a70);
-                    break;
-                case "8":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a80);
-                    break;
-                default:
-//                playChord1= false;
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a00);
-            }
-        } else if (item2 == "1") {
-            switch (item1) {
-                case "NONE":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a01);
-                    break;
-                case "1":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a11);
-                    break;
-                case "2":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a21);
-                    break;
-                case "3":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a31);
-                    break;
-                case "4":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a41);
-                    break;
-                case "5":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a51);
-                    break;
-                case "6":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a61);
-                    break;
-                case "7":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a71);
-                    break;
-                case "8":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a81);
-                    break;
-                default:
-//                playChord1= false;
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a00);
-            }
-        } else if (item2 == "2") {
-            switch (item1) {
-                case "NONE":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a02);
-                    break;
-                case "1":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a12);
-                    break;
-                case "2":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a22);
-                    break;
-                case "3":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a32);
-                    break;
-                case "4":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a42);
-                    break;
-                case "5":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a52);
-                    break;
-                case "6":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a62);
-                    break;
-                case "7":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a72);
-                    break;
-                case "8":
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a82);
-                    break;
-                default:
-                    mediaPlayer = MediaPlayer.create(this, R.raw.a00);
-            }
+//            switch (item1) {
+//                case "NONE":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a00);
+//                    break;
+//                case "1":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a10);
+//                    break;
+//                case "2":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a20);
+//                    break;
+//                case "3":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a30);
+//                    break;
+//                case "4":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a40);
+//                    break;
+//                case "5":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a50);
+//                    break;
+//                case "6":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a60);
+//                    break;
+//                case "7":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a70);
+//                    break;
+//                case "8":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a80);
+//                    break;
+//                default:
+////                playChord1= false;
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a00);
+//            }
+//        } else if (item2 == "1") {
+//            switch (item1) {
+//                case "NONE":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a01);
+//                    break;
+//                case "1":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a11);
+//                    break;
+//                case "2":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a21);
+//                    break;
+//                case "3":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a31);
+//                    break;
+//                case "4":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a41);
+//                    break;
+//                case "5":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a51);
+//                    break;
+//                case "6":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a61);
+//                    break;
+//                case "7":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a71);
+//                    break;
+//                case "8":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a81);
+//                    break;
+//                default:
+////                playChord1= false;
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a00);
+//            }
+//        } else if (item2 == "2") {
+//            switch (item1) {
+//                case "NONE":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a02);
+//                    break;
+//                case "1":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a12);
+//                    break;
+//                case "2":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a22);
+//                    break;
+//                case "3":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a32);
+//                    break;
+//                case "4":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a42);
+//                    break;
+//                case "5":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a52);
+//                    break;
+//                case "6":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a62);
+//                    break;
+//                case "7":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a72);
+//                    break;
+//                case "8":
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a82);
+//                    break;
+//                default:
+//                    mediaPlayer = MediaPlayer.create(this, R.raw.a00);
+//            }
 
 //        playChord1 = true;
 
@@ -343,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
                 while (runBool && mediaPlayer.getDuration() - mediaPlayer.getCurrentPosition() >= 1) {
                     try {
                         // 10ミリ秒待機
-                        Thread.sleep(50);
+                        Thread.sleep(30);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -352,7 +354,7 @@ public class MainActivity extends AppCompatActivity {
                         public void run() {
                             timeProgress = mediaPlayer.getCurrentPosition();
                             progressBar.setProgress(timeProgress);
-                            if (timeProgress >= 87672&&timeProgress <= 87822) {
+                            if (timeProgress >= 87772&&timeProgress <= 87892) {
                                 if (clapId > 0) {
                                     recData.play(clapId, 1.0F, 0.9F, 0, 0, 1.1F);
                                     clappedBool = true;

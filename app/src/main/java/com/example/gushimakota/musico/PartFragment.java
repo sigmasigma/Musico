@@ -90,7 +90,7 @@ public class PartFragment extends Fragment {
         super.onStart();
 //        imageView = (ImageView) getActivity().findViewById(R.id.imageView);
 //        imageView.setMaxHeight(imageView.getWidth());
-//        imageView.setImageResource(R.drawable.gragh2);
+//        imageView.setImageResource(R.drawable.gragh1);
 //        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
     }
 

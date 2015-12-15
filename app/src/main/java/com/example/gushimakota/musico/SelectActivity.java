@@ -3,13 +3,17 @@ package com.example.gushimakota.musico;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 public class SelectActivity extends AppCompatActivity {
 
@@ -25,7 +29,10 @@ public class SelectActivity extends AppCompatActivity {
     private int aState;
     private int bState;
     private int cState;
-
+    //ユーザ情報
+    private String userName;
+    private int userScore;
+    private TextView userText;
 
 
     @Override
@@ -35,14 +42,14 @@ public class SelectActivity extends AppCompatActivity {
         imageA = (ImageView)findViewById(R.id.imageAPart);
         imageB = (ImageView)findViewById(R.id.imageBPart);
         imageC = (ImageView)findViewById(R.id.imageCPart);
+        userText = (TextView)findViewById(R.id.userText);
 
-        getParseStates();
-
-//        changeTheProgressimage();
+        getPartStates();
+        getUserInfo();
 
     }
 
-    private void getParseStates(){
+    private void getPartStates(){
         ParseQuery<ParseObject> querya = ParseQuery.getQuery("Part");
         querya.getInBackground(APARTID, new GetCallback<ParseObject>() {
             public void done(ParseObject objectA, ParseException e) {
@@ -80,12 +87,20 @@ public class SelectActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Parse Passed", Toast.LENGTH_LONG).show();
     }
 
-    private void changeTheProgressimage(){
-        setImageByState(imageA,aState);
-        setImageByState(imageB,bState);
-        setImageByState(imageC,cState);
-        Toast.makeText(getApplicationContext(), String.valueOf(cState), Toast.LENGTH_LONG).show();
+    private void getUserInfo(){
+        ParseUser.logInInBackground("gushi", "525", new LogInCallback() {
+            public void done(ParseUser user, ParseException e) {
+                if (user != null) {
+                    userName = user.getString("username");
+                    userScore = user.getInt("Score");
+                    userText.setText("Hello " + userName + ", your SCORE is " + String.valueOf(userScore));
+                } else {
+
+                }
+            }
+        });
     }
+
 
     private void setImageByState(ImageView image,int state){
         switch (state){
@@ -110,4 +125,79 @@ public class SelectActivity extends AppCompatActivity {
         }
     }
 
+    public void onClickA(View v){
+        switch (aState){
+            case 0:
+
+                return;
+            case 1:
+
+                return;
+            case 2:
+
+                return;
+            case 3:
+
+                return;
+            case 4:
+
+                return;
+            default:
+                Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();
+                return;
+        }
+    }
+
+    public void onClickB(View v){
+        switch (bState){
+            case 0:
+
+                return;
+            case 1:
+
+                return;
+            case 2:
+
+                return;
+            case 3:
+
+                return;
+            case 4:
+
+                return;
+            default:
+                Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();
+                return;
+        }
+    }
+
+    public void onClickC(View v){
+        switch (cState){
+            case 0:
+
+                return;
+            case 1:
+
+                return;
+            case 2:
+
+                return;
+            case 3:
+
+                return;
+            case 4:
+
+                return;
+            default:
+                Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();
+                return;
+        }
+    }
+
+//    private void changeTheProgressimage(){
+//        setImageByState(imageA,aState);
+//        setImageByState(imageB,bState);
+//        setImageByState(imageC,cState);
+//        Toast.makeText(getApplicationContext(), String.valueOf(cState), Toast.LENGTH_LONG).show();
+//    }
 }

@@ -7,11 +7,30 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.gushimakota.musico.FlowActivity">
+    tools:context="com.example.gushimakota.musico.FlowActivity"
+    android:onClick="onClickFlow">
 
-    <FrameLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/flow_12_10"
-        android:onClick="onClickFlow"></FrameLayout>
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:id="@+id/imageView2"
+            android:layout_weight="10"
+            android:src="@drawable/flow_12_10"
+            android:scaleType="fitCenter" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="タップして進む"
+            android:id="@+id/textView5"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_gravity="center" />
+    </LinearLayout>
+
 </RelativeLayout>

@@ -15,8 +15,7 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".MainActivity" />
+        <activity android:name=".MainActivity" />
         <activity
             android:name=".RecordActivity"
             android:label="@string/app_name"
@@ -32,7 +31,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".FlowActivity" />
-        <activity android:name=".SelectActivity"></activity>
+        <activity android:name=".SelectActivity" />
+        <activity android:name=".EditApartActivity"></activity>
     </application>
 
 </manifest>

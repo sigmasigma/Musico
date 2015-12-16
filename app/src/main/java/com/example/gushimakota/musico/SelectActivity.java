@@ -1,6 +1,7 @@
 package com.example.gushimakota.musico;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -49,9 +50,10 @@ public class SelectActivity extends AppCompatActivity {
 
     }
 
+    //parseがうまくいかなかったらここ変更したのでそれっぽい
     private void getPartStates(){
-        ParseQuery<ParseObject> querya = ParseQuery.getQuery("Part");
-        querya.getInBackground(APARTID, new GetCallback<ParseObject>() {
+        ParseQuery<ParseObject> queryA = ParseQuery.getQuery("Part");
+        queryA.getInBackground(APARTID, new GetCallback<ParseObject>() {
             public void done(ParseObject objectA, ParseException e) {
                 if (e == null) {
                     aState = objectA.getInt("state");
@@ -61,8 +63,8 @@ public class SelectActivity extends AppCompatActivity {
                 }
             }
         });
-        ParseQuery<ParseObject> queryb = ParseQuery.getQuery("Part");
-        queryb.getInBackground(BPARTID, new GetCallback<ParseObject>() {
+        ParseQuery<ParseObject> queryB = ParseQuery.getQuery("Part");
+        queryB.getInBackground(BPARTID, new GetCallback<ParseObject>() {
             public void done(ParseObject objectB, ParseException e) {
                 if (e == null) {
                     bState = objectB.getInt("state");
@@ -72,8 +74,8 @@ public class SelectActivity extends AppCompatActivity {
                 }
             }
         });
-        ParseQuery<ParseObject> queryc = ParseQuery.getQuery("Part");
-        queryc.getInBackground(CPARTID, new GetCallback<ParseObject>() {
+        ParseQuery<ParseObject> queryC = ParseQuery.getQuery("Part");
+        queryC.getInBackground(CPARTID, new GetCallback<ParseObject>() {
             public void done(ParseObject objectC, ParseException e) {
                 if (e == null) {
                     cState = objectC.getInt("state");
@@ -128,13 +130,17 @@ public class SelectActivity extends AppCompatActivity {
     public void onClickA(View v){
         switch (aState){
             case 0:
-
+                Intent intent0 = new Intent(SelectActivity.this, com.example.gushimakota.musico.EditApartActivity.class);
+                finish();
+                startActivity(intent0);
                 return;
             case 1:
 
                 return;
             case 2:
-
+                Intent intent2 = new Intent(SelectActivity.this, com.example.gushimakota.musico.EditApartActivity.class);
+                finish();
+                startActivity(intent2);
                 return;
             case 3:
 

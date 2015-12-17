@@ -257,30 +257,78 @@ public class EditFragment extends Fragment {
     private void setParses(){
         switch (mParam1){
             case "A":
+                //トラックの登録
                 ParseObject aPartSet = new ParseObject("ApartSet");
                 aPartSet.put("idea",idea);
+                aPartSet.put("check",false);
                 aPartSet.saveInBackground();
 
+                //状態の遷移
                 ParseQuery<ParseObject> queryA = ParseQuery.getQuery("Part");
                 queryA.getInBackground(APARTID, new GetCallback<ParseObject>() {
                     public void done(ParseObject aPart, ParseException e) {
                         if (e == null) {
-                            // Now let's update it with some new data. In this case, only cheatMode and score
-                            // will get sent to the Parse Cloud. playerName hasn't changed.
                             int state = aPart.getInt("state");
                             if (state == 0){
                                 aPart.put("state", 1);
+                                aPart.saveInBackground();
+                            }else if (state == 2){
+                                aPart.put("state", 3);
                                 aPart.saveInBackground();
                             }
                         }
                     }
                 });
                 break;
+
             case "B":
+                //トラックの登録
+                ParseObject bPartSet = new ParseObject("BpartSet");
+                bPartSet.put("idea",idea);
+                bPartSet.put("check",false);
+                bPartSet.saveInBackground();
 
+                //状態の遷移
+                ParseQuery<ParseObject> queryB = ParseQuery.getQuery("Part");
+                queryB.getInBackground(BPARTID, new GetCallback<ParseObject>() {
+                    public void done(ParseObject bPart, ParseException e) {
+                        if (e == null) {
+                            int state = bPart.getInt("state");
+                            if (state == 0){
+                                bPart.put("state", 1);
+                                bPart.saveInBackground();
+                            }else if (state == 2){
+                                bPart.put("state", 3);
+                                bPart.saveInBackground();
+                            }
+                        }
+                    }
+                });
                 break;
-            case "C":
 
+            case "C":
+                //トラックの登録
+                ParseObject cPartSet = new ParseObject("CpartSet");
+                cPartSet.put("idea",idea);
+                cPartSet.put("check",false);
+                cPartSet.saveInBackground();
+
+                //状態の遷移
+                ParseQuery<ParseObject> queryC = ParseQuery.getQuery("Part");
+                queryC.getInBackground(CPARTID, new GetCallback<ParseObject>() {
+                    public void done(ParseObject cPart, ParseException e) {
+                        if (e == null) {
+                            int state = cPart.getInt("state");
+                            if (state == 0){
+                                cPart.put("state", 1);
+                                cPart.saveInBackground();
+                            }else if (state == 2){
+                                cPart.put("state", 3);
+                                cPart.saveInBackground();
+                            }
+                        }
+                    }
+                });
                 break;
             default:
                 return;

@@ -59,7 +59,7 @@ public class SelectActivity extends AppCompatActivity {
                     aState = objectA.getInt("state");
                     setImageByState(imageA,aState);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in APart.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -68,7 +68,7 @@ public class SelectActivity extends AppCompatActivity {
             public void done(ParseObject objectB, ParseException e) {
                 if (e == null) {
                     bState = objectB.getInt("state");
-                    setImageByState(imageB,bState);
+                    setImageByState(imageB, bState);
                 } else {
                     Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();
                 }
@@ -79,14 +79,13 @@ public class SelectActivity extends AppCompatActivity {
             public void done(ParseObject objectC, ParseException e) {
                 if (e == null) {
                     cState = objectC.getInt("state");
-                    setImageByState(imageC,cState);
+                    setImageByState(imageC, cState);
                     Toast.makeText(getApplicationContext(), "C state Ok", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();
                 }
             }
         });
-        Toast.makeText(getApplicationContext(), "Parse Passed", Toast.LENGTH_LONG).show();
     }
 
     private void getUserInfo(){
@@ -97,7 +96,7 @@ public class SelectActivity extends AppCompatActivity {
                     userScore = user.getInt("Score");
                     userText.setText("Hello " + userName + ", your SCORE is " + String.valueOf(userScore));
                 } else {
-
+                    Toast.makeText(getApplicationContext(), "Parse User is crashed", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -110,17 +109,27 @@ public class SelectActivity extends AppCompatActivity {
                 image.setImageResource(R.drawable.gragh0);
                 return;
             case 1:
-                image.setImageResource(R.drawable.gragh1);
+                image.setImageResource(R.drawable.gragh20);
                 return;
             case 2:
-                image.setImageResource(R.drawable.gragh2);
+                image.setImageResource(R.drawable.gragh40);
                 return;
             case 3:
-                image.setImageResource(R.drawable.gragh3);
+                image.setImageResource(R.drawable.gragh50);
                 return;
             case 4:
-                image.setImageResource(R.drawable.gragh4);
+                image.setImageResource(R.drawable.gragh60);
                 return;
+            case 5:
+                image.setImageResource(R.drawable.gragh80);
+                return;
+            case 6:
+                image.setImageResource(R.drawable.gragh80);
+                return;
+            case 7:
+                image.setImageResource(R.drawable.gragh80);
+                return;
+
             default:
                 Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();
                 return;
@@ -148,22 +157,31 @@ public class SelectActivity extends AppCompatActivity {
             case 4:
 
                 return;
-            default:
-                Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();
+            case 5:
+
                 return;
+            case 6:
+                return;
+            case 7:
+                return;
+
         }
     }
 
     public void onClickB(View v){
         switch (bState){
             case 0:
-
+                Intent intent0 = new Intent(SelectActivity.this, com.example.gushimakota.musico.EditBpartActivity.class);
+                finish();
+                startActivity(intent0);
                 return;
             case 1:
 
                 return;
             case 2:
-
+                Intent intent2 = new Intent(SelectActivity.this, com.example.gushimakota.musico.EditBpartActivity.class);
+                finish();
+                startActivity(intent2);
                 return;
             case 3:
 
@@ -171,8 +189,12 @@ public class SelectActivity extends AppCompatActivity {
             case 4:
 
                 return;
-            default:
-                Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();
+            case 5:
+
+                return;
+            case 6:
+                return;
+            case 7:
                 return;
         }
     }
@@ -180,19 +202,30 @@ public class SelectActivity extends AppCompatActivity {
     public void onClickC(View v){
         switch (cState){
             case 0:
-
+                Intent intent0 = new Intent(SelectActivity.this, com.example.gushimakota.musico.EditCpartActivity.class);
+                finish();
+                startActivity(intent0);
                 return;
             case 1:
 
                 return;
             case 2:
-
+                Intent intent2 = new Intent(SelectActivity.this, com.example.gushimakota.musico.EditCpartActivity.class);
+                finish();
+                startActivity(intent2);
                 return;
             case 3:
 
                 return;
             case 4:
 
+                return;
+            case 5:
+
+                return;
+            case 6:
+                return;
+            case 7:
                 return;
             default:
                 Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();

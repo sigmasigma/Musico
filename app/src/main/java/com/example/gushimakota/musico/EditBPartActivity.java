@@ -5,21 +5,17 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class EditApartActivity extends AppCompatActivity {
-
-    private static final String APARTID = "exofgfV3QJ";
-    private static final String BPARTID = "fc1U1VvuGq";
-    private static final String CPARTID = "vCPCvVv5Z6";
+public class EditBpartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_edit_apart);
+        setContentView(R.layout.activity_edit_bpart);
 
-        EditFragment fragment = EditFragment.newInstance("A","");
+        EditFragment fragment = EditFragment.newInstance("B","");
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        transaction.add(R.id.container_edit_a,fragment,"fragmentA");
+        transaction.add(R.id.container_edit_b, fragment, "fragmentB");
         transaction.commit();
     }
 }

@@ -85,15 +85,6 @@ public class PartFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_part, container, false);
     }
 
-    @Override
-    public void onStart(){
-        super.onStart();
-//        imageView = (ImageView) getActivity().findViewById(R.id.imageView);
-//        imageView.setMaxHeight(imageView.getWidth());
-//        imageView.setImageResource(R.drawable.gragh1);
-//        imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-    }
-
     public void setImageView(int resId){
         imageView = (ImageView) getActivity().findViewById(R.id.imageView);
         imageView.setImageResource(resId);

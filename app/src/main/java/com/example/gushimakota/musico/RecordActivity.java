@@ -13,6 +13,30 @@ import android.widget.Button;
 import java.io.File;
 import java.io.IOException;
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//使ってないです
+
+
+
+
+
+
+
+
 public class RecordActivity extends AppCompatActivity {
 
     private Button clapRec;

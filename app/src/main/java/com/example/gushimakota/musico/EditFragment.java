@@ -1,6 +1,7 @@
 package com.example.gushimakota.musico;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -23,9 +24,9 @@ public class EditFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private static final String APARTID = "exofgfV3QJ";
-    private static final String BPARTID = "fc1U1VvuGq";
-    private static final String CPARTID = "vCPCvVv5Z6";
+    private static final String APART_ID = "exofgfV3QJ";
+    private static final String BPART_ID = "fc1U1VvuGq";
+    private static final String CPART_ID = "vCPCvVv5Z6";
 
     private String mParam1;
     private String mParam2;
@@ -64,8 +65,8 @@ public class EditFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_edit, container, false);
         setSpinners(v);
         title = (TextView)v.findViewById(R.id.titleText);
-        title.setText(mParam1+" part");
-        setButtonAction(v);
+        title.setText(mParam1 + " part");
+        setEditButtonAction(v);
         return v;
     }
 
@@ -199,13 +200,13 @@ public class EditFragment extends Fragment {
         });
     }
 
-    public void setButtonAction(View v){
+    public void setEditButtonAction(View v){
         play = (Button)v.findViewById(R.id.play);
         register = (Button)v.findViewById(R.id.register);
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (mParam1){
+                switch (mParam1) {
                     case "A":
 
                         break;
@@ -239,6 +240,9 @@ public class EditFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         // OK ボタンクリック処理
                         setParses();
+                        Intent goToNextIntent = new Intent(getContext(),com.example.gushimakota.musico.ThankYouActivity.class);
+                        startActivity(goToNextIntent);
+                        getActivity().finish();
                     }
                 });
         alertDlg.setNegativeButton(
@@ -255,84 +259,50 @@ public class EditFragment extends Fragment {
     }
 
     private void setParses(){
+        //トラックの登録
+        trackIdeaSet(mParam1);
         switch (mParam1){
             case "A":
-                //トラックの登録
-                ParseObject aPartSet = new ParseObject("ApartSet");
-                aPartSet.put("idea",idea);
-                aPartSet.put("check",false);
-                aPartSet.saveInBackground();
-
                 //状態の遷移
-                ParseQuery<ParseObject> queryA = ParseQuery.getQuery("Part");
-                queryA.getInBackground(APARTID, new GetCallback<ParseObject>() {
-                    public void done(ParseObject aPart, ParseException e) {
-                        if (e == null) {
-                            int state = aPart.getInt("state");
-                            if (state == 0){
-                                aPart.put("state", 1);
-                                aPart.saveInBackground();
-                            }else if (state == 2){
-                                aPart.put("state", 3);
-                                aPart.saveInBackground();
-                            }
-                        }
-                    }
-                });
+                parseStateForward(APART_ID);
                 break;
 
             case "B":
-                //トラックの登録
-                ParseObject bPartSet = new ParseObject("BpartSet");
-                bPartSet.put("idea",idea);
-                bPartSet.put("check",false);
-                bPartSet.saveInBackground();
-
                 //状態の遷移
-                ParseQuery<ParseObject> queryB = ParseQuery.getQuery("Part");
-                queryB.getInBackground(BPARTID, new GetCallback<ParseObject>() {
-                    public void done(ParseObject bPart, ParseException e) {
-                        if (e == null) {
-                            int state = bPart.getInt("state");
-                            if (state == 0){
-                                bPart.put("state", 1);
-                                bPart.saveInBackground();
-                            }else if (state == 2){
-                                bPart.put("state", 3);
-                                bPart.saveInBackground();
-                            }
-                        }
-                    }
-                });
+                parseStateForward(BPART_ID);
                 break;
 
             case "C":
-                //トラックの登録
-                ParseObject cPartSet = new ParseObject("CpartSet");
-                cPartSet.put("idea",idea);
-                cPartSet.put("check",false);
-                cPartSet.saveInBackground();
-
                 //状態の遷移
-                ParseQuery<ParseObject> queryC = ParseQuery.getQuery("Part");
-                queryC.getInBackground(CPARTID, new GetCallback<ParseObject>() {
-                    public void done(ParseObject cPart, ParseException e) {
-                        if (e == null) {
-                            int state = cPart.getInt("state");
-                            if (state == 0){
-                                cPart.put("state", 1);
-                                cPart.saveInBackground();
-                            }else if (state == 2){
-                                cPart.put("state", 3);
-                                cPart.saveInBackground();
-                            }
-                        }
-                    }
-                });
+                parseStateForward(CPART_ID);
                 break;
             default:
                 return;
         }
     }
+
+    private void trackIdeaSet(String part){
+        ParseObject trackSet = new ParseObject("Track");
+        trackSet.put("part",part);
+        trackSet.put("idea",idea);
+        trackSet.put("check",false);
+        trackSet.put("checkScore",0);
+        trackSet.put("metaCheckScore",0);
+        trackSet.saveInBackground();
+    }
+
+    private void parseStateForward(String id){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Part");
+        query.getInBackground(id, new GetCallback<ParseObject>() {
+            public void done(ParseObject part, ParseException e) {
+                if (e == null) {
+                    int state = part.getInt("state");
+                    part.put("state", state+1);
+                    part.saveInBackground();
+                }
+            }
+        });
+    }
+
 
 }

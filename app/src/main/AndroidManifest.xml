@@ -15,11 +15,6 @@
         android:largeHeap="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity" />
-        <activity
-            android:name=".RecordActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SplashActivity"
             android:label="@string/app_name"
@@ -34,7 +29,11 @@
         <activity android:name=".SelectActivity" />
         <activity android:name=".EditApartActivity" />
         <activity android:name=".EditBpartActivity" />
-        <activity android:name=".EditCpartActivity"></activity>
+        <activity android:name=".EditCpartActivity" />
+        <activity android:name=".CheckApartActivity" />
+        <activity android:name=".CheckBpartActivity" />
+        <activity android:name=".CheckCpartActivity" />
+        <activity android:name=".ThankYouActivity"></activity>
     </application>
 
 </manifest>

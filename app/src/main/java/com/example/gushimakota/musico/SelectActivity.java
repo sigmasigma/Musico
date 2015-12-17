@@ -18,9 +18,9 @@ import com.parse.ParseUser;
 
 public class SelectActivity extends AppCompatActivity {
 
-    private static final String APARTID = "exofgfV3QJ";
-    private static final String BPARTID = "fc1U1VvuGq";
-    private static final String CPARTID = "vCPCvVv5Z6";
+    private static final String APART_ID = "exofgfV3QJ";
+    private static final String BPART_ID = "fc1U1VvuGq";
+    private static final String CPART_ID = "vCPCvVv5Z6";
 
     //進捗グラフのイメージビュー
     private ImageView imageA;
@@ -50,10 +50,9 @@ public class SelectActivity extends AppCompatActivity {
 
     }
 
-    //parseがうまくいかなかったらここ変更したのでそれっぽい
     private void getPartStates(){
         ParseQuery<ParseObject> queryA = ParseQuery.getQuery("Part");
-        queryA.getInBackground(APARTID, new GetCallback<ParseObject>() {
+        queryA.getInBackground(APART_ID, new GetCallback<ParseObject>() {
             public void done(ParseObject objectA, ParseException e) {
                 if (e == null) {
                     aState = objectA.getInt("state");
@@ -64,25 +63,25 @@ public class SelectActivity extends AppCompatActivity {
             }
         });
         ParseQuery<ParseObject> queryB = ParseQuery.getQuery("Part");
-        queryB.getInBackground(BPARTID, new GetCallback<ParseObject>() {
+        queryB.getInBackground(BPART_ID, new GetCallback<ParseObject>() {
             public void done(ParseObject objectB, ParseException e) {
                 if (e == null) {
                     bState = objectB.getInt("state");
                     setImageByState(imageB, bState);
                 } else {
-                    Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in BPart.", Toast.LENGTH_LONG).show();
                 }
             }
         });
         ParseQuery<ParseObject> queryC = ParseQuery.getQuery("Part");
-        queryC.getInBackground(CPARTID, new GetCallback<ParseObject>() {
+        queryC.getInBackground(CPART_ID, new GetCallback<ParseObject>() {
             public void done(ParseObject objectC, ParseException e) {
                 if (e == null) {
                     cState = objectC.getInt("state");
                     setImageByState(imageC, cState);
                     Toast.makeText(getApplicationContext(), "C state Ok", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in CPart.", Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -144,7 +143,9 @@ public class SelectActivity extends AppCompatActivity {
                 startActivity(intent0);
                 return;
             case 1:
-
+                Intent intent1 = new Intent(SelectActivity.this, com.example.gushimakota.musico.CheckApartActivity.class);
+                finish();
+                startActivity(intent1);
                 return;
             case 2:
                 Intent intent2 = new Intent(SelectActivity.this, com.example.gushimakota.musico.EditApartActivity.class);

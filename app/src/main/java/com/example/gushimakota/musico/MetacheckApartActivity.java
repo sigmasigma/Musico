@@ -31,7 +31,7 @@ public class MetacheckApartActivity extends AppCompatActivity {
 
                     for (ParseObject object:objects) {
 
-                        CheckFragment fragment = CheckFragment.newInstance("A", object.getObjectId());
+                        MetacheckFragment fragment = MetacheckFragment.newInstance("A", object.getObjectId());
                         FragmentManager manager = getSupportFragmentManager();
                         FragmentTransaction transaction = manager.beginTransaction();
                         transaction.add(R.id.container_meta_a, fragment, "fragmentA");

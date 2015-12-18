@@ -33,7 +33,10 @@
         <activity android:name=".CheckApartActivity" />
         <activity android:name=".CheckBpartActivity" />
         <activity android:name=".CheckCpartActivity" />
-        <activity android:name=".ThankYouActivity"></activity>
+        <activity android:name=".ThankYouActivity" />
+        <activity android:name=".MetacheckApartActivity" />
+        <activity android:name=".MetacheckBpartActivity" />
+        <activity android:name=".MetacheckCpartActivity"></activity>
     </application>
 
 </manifest>

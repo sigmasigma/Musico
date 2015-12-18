@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.parse.FindCallback;
 import com.parse.ParseException;
@@ -22,7 +21,7 @@ public class CheckApartActivity extends AppCompatActivity {
         setContentView(R.layout.activity_check_apart);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Track");
         query.whereEqualTo("part", "A");
-//        query.whereEqualTo("check",false);
+        query.whereEqualTo("check",false);
 
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override

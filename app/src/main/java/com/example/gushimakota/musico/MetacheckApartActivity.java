@@ -13,29 +13,32 @@ import com.parse.ParseQuery;
 
 import java.util.List;
 
-public class CheckBpartActivity extends AppCompatActivity {
+public class MetacheckApartActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_check_bpart);
+        setContentView(R.layout.activity_metacheck_apart);
+
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Track");
-        query.whereEqualTo("part", "B");
-        query.whereEqualTo("check",false);
+        query.whereEqualTo("part", "A");
+//        query.whereEqualTo("check",false);
 
         query.findInBackground(new FindCallback<ParseObject>() {
             @Override
             public void done(List<ParseObject> objects, ParseException e) {
                 if (objects != null) {
-                    ParseObject object = objects.get(0);
 
-                    CheckFragment fragment = CheckFragment.newInstance("B", object.getObjectId());
-                    FragmentManager manager = getSupportFragmentManager();
-                    FragmentTransaction transaction = manager.beginTransaction();
-                    transaction.add(R.id.container_check_b, fragment, "fragmentB");
-                    transaction.commit();
+                    for (ParseObject object:objects) {
+
+                        CheckFragment fragment = CheckFragment.newInstance("A", object.getObjectId());
+                        FragmentManager manager = getSupportFragmentManager();
+                        FragmentTransaction transaction = manager.beginTransaction();
+                        transaction.add(R.id.container_meta_a, fragment, "fragmentA");
+                        transaction.commit();
+                    }
                 } else {
-                    Intent intent1 = new Intent(CheckBpartActivity.this, com.example.gushimakota.musico.SelectActivity.class);
+                    Intent intent1 = new Intent(MetacheckApartActivity.this, com.example.gushimakota.musico.SelectActivity.class);
                     startActivity(intent1);
                     finish();
                 }

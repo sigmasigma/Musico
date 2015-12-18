@@ -154,16 +154,31 @@ public class SelectActivity extends AppCompatActivity {
                 return;
             case 3:
 
+                Intent intent3 = new Intent(SelectActivity.this, com.example.gushimakota.musico.CheckApartActivity.class);
+                finish();
+                startActivity(intent3);
                 return;
             case 4:
 
+                Intent intent4 = new Intent(SelectActivity.this, com.example.gushimakota.musico.EditApartActivity.class);
+                finish();
+                startActivity(intent4);
                 return;
             case 5:
 
+                Intent intent5 = new Intent(SelectActivity.this, com.example.gushimakota.musico.CheckApartActivity.class);
+                finish();
+                startActivity(intent5);
                 return;
             case 6:
+                Intent intent6 = new Intent(SelectActivity.this, com.example.gushimakota.musico.MetacheckApartActivity.class);
+                finish();
+                startActivity(intent6);
                 return;
             case 7:
+                Intent intent7 = new Intent(SelectActivity.this, com.example.gushimakota.musico.EditApartActivity.class);
+                finish();
+                startActivity(intent7);
                 return;
 
         }
@@ -177,7 +192,9 @@ public class SelectActivity extends AppCompatActivity {
                 startActivity(intent0);
                 return;
             case 1:
-
+                Intent intent1 = new Intent(SelectActivity.this, com.example.gushimakota.musico.CheckBpartActivity.class);
+                finish();
+                startActivity(intent1);
                 return;
             case 2:
                 Intent intent2 = new Intent(SelectActivity.this, com.example.gushimakota.musico.EditBpartActivity.class);
@@ -185,17 +202,29 @@ public class SelectActivity extends AppCompatActivity {
                 startActivity(intent2);
                 return;
             case 3:
-
+                Intent intent3 = new Intent(SelectActivity.this, com.example.gushimakota.musico.CheckBpartActivity.class);
+                finish();
+                startActivity(intent3);
                 return;
             case 4:
-
+                Intent intent4 = new Intent(SelectActivity.this, com.example.gushimakota.musico.EditBpartActivity.class);
+                finish();
+                startActivity(intent4);
                 return;
             case 5:
-
+                Intent intent5 = new Intent(SelectActivity.this, com.example.gushimakota.musico.CheckBpartActivity.class);
+                finish();
+                startActivity(intent5);
                 return;
             case 6:
+//                Intent intent6 = new Intent(SelectActivity.this, com.example.gushimakota.musico.MetacheckBpartActivity.class);
+//                finish();
+//                startActivity(intent1);
                 return;
             case 7:
+                Intent intent7 = new Intent(SelectActivity.this, com.example.gushimakota.musico.CheckBpartActivity.class);
+                finish();
+                startActivity(intent7);
                 return;
         }
     }
@@ -208,7 +237,9 @@ public class SelectActivity extends AppCompatActivity {
                 startActivity(intent0);
                 return;
             case 1:
-
+                Intent intent1 = new Intent(SelectActivity.this, com.example.gushimakota.musico.CheckCpartActivity.class);
+                finish();
+                startActivity(intent1);
                 return;
             case 2:
                 Intent intent2 = new Intent(SelectActivity.this, com.example.gushimakota.musico.EditCpartActivity.class);
@@ -216,20 +247,29 @@ public class SelectActivity extends AppCompatActivity {
                 startActivity(intent2);
                 return;
             case 3:
-
+                Intent intent3 = new Intent(SelectActivity.this, com.example.gushimakota.musico.CheckCpartActivity.class);
+                finish();
+                startActivity(intent3);
                 return;
             case 4:
-
+                Intent intent4 = new Intent(SelectActivity.this, com.example.gushimakota.musico.EditCpartActivity.class);
+                finish();
+                startActivity(intent4);
                 return;
             case 5:
-
+                Intent intent5 = new Intent(SelectActivity.this, com.example.gushimakota.musico.CheckCpartActivity.class);
+                finish();
+                startActivity(intent5);
                 return;
             case 6:
+//                Intent intent6 = new Intent(SelectActivity.this, com.example.gushimakota.musico.MetacheckCpartActivity.class);
+//                finish();
+//                startActivity(intent6);
                 return;
             case 7:
                 return;
             default:
-                Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in C part.", Toast.LENGTH_LONG).show();
                 return;
         }
     }

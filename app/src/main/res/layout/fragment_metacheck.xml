@@ -2,102 +2,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     tools:context="com.example.gushimakota.musico.CheckFragment">
 
-    <!-- TODO: Update blank fragment layout -->
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="このトラックのチェックを"
-        android:id="@+id/textView20_meta"
-        android:layout_gravity="center"
-        android:layout_weight="0.5"
-        android:gravity="center" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="このトラックのチェックを"
+            android:id="@+id/textView20_meta"
+            android:layout_gravity="center"
+            android:gravity="center" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="お願いします"
-        android:id="@+id/textView21_meta"
-        android:layout_weight="0.5"
-        android:layout_gravity="center"
-        android:gravity="center" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="お願いします"
+            android:id="@+id/textView21_meta"
+            android:layout_gravity="center"
+            android:gravity="center" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:text="この部分を再生する"
-        android:id="@+id/play_for_checking_meta"
-        android:layout_gravity="center"
-        android:layout_weight="1" />
-
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="評価をお願いします"
-        android:id="@+id/textPleaseEstimate_meta"
-        android:layout_weight="0.5"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:visibility="invisible" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="この部分を再生する"
+            android:id="@+id/play_for_checking_meta"
+            android:layout_gravity="center" />
+    </LinearLayout>
 
     <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3">
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="bottom">
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="正直いまいち"
-                android:id="@+id/bad_meta"
-                android:layout_gravity="center"
-                android:visibility="invisible" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
+        <Button
             android:layout_width="wrap_content"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="or"
-                android:id="@+id/textOr_meta"
-                android:textSize="20dp"
-                android:layout_gravity="center"
-                android:visibility="invisible" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="悪くない"
-                android:id="@+id/good_meta"
-                android:layout_gravity="center"
-                android:visibility="invisible" />
-        </LinearLayout>
-
+            android:layout_height="wrap_content"
+            android:text="投票する"
+            android:id="@+id/vote"
+            android:layout_gravity="center"
+            android:visibility="gone" />
     </LinearLayout>
+
 
 </LinearLayout>

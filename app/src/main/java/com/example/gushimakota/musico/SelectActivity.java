@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,14 +27,20 @@ public class SelectActivity extends AppCompatActivity {
     private ImageView imageA;
     private ImageView imageB;
     private ImageView imageC;
+    //ボタンのID
+    private Button aButton;
+    private Button bButton;
+    private Button cButton;
     //パートの状態
     private int aState;
     private int bState;
     private int cState;
     //ユーザ情報
+    private ParseUser currentUser;
     private String userName;
     private int userScore;
     private TextView userText;
+
 
 
     @Override
@@ -44,10 +51,13 @@ public class SelectActivity extends AppCompatActivity {
         imageB = (ImageView)findViewById(R.id.imageBPart);
         imageC = (ImageView)findViewById(R.id.imageCPart);
         userText = (TextView)findViewById(R.id.userText);
+        aButton = (Button)findViewById(R.id.aButton);
+        bButton = (Button)findViewById(R.id.bButton);
+        cButton = (Button)findViewById(R.id.cButton);
 
-        getPartStates();
         getUserInfo();
-
+        currentUser = ParseUser.getCurrentUser();
+        getPartStates();
     }
 
     private void getPartStates(){
@@ -56,7 +66,7 @@ public class SelectActivity extends AppCompatActivity {
             public void done(ParseObject objectA, ParseException e) {
                 if (e == null) {
                     aState = objectA.getInt("state");
-                    setImageByState(imageA,aState);
+                    setImageByState(imageA, aState, aButton, "a");
                 } else {
                     Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in APart.", Toast.LENGTH_LONG).show();
                 }
@@ -67,7 +77,7 @@ public class SelectActivity extends AppCompatActivity {
             public void done(ParseObject objectB, ParseException e) {
                 if (e == null) {
                     bState = objectB.getInt("state");
-                    setImageByState(imageB, bState);
+                    setImageByState(imageB, bState, bButton, "b");
                 } else {
                     Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in BPart.", Toast.LENGTH_LONG).show();
                 }
@@ -78,8 +88,7 @@ public class SelectActivity extends AppCompatActivity {
             public void done(ParseObject objectC, ParseException e) {
                 if (e == null) {
                     cState = objectC.getInt("state");
-                    setImageByState(imageC, cState);
-                    Toast.makeText(getApplicationContext(), "C state Ok", Toast.LENGTH_LONG).show();
+                    setImageByState(imageC, cState, cButton, "c");
                 } else {
                     Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in CPart.", Toast.LENGTH_LONG).show();
                 }
@@ -101,30 +110,29 @@ public class SelectActivity extends AppCompatActivity {
         });
     }
 
-
-    private void setImageByState(ImageView image,int state){
+    private void setImageByState(ImageView image,int state, Button button, String partString){
         switch (state){
             case 0:
                 image.setImageResource(R.drawable.gragh0);
-                return;
+                break;
             case 1:
                 image.setImageResource(R.drawable.gragh20);
-                return;
+                break;
             case 2:
                 image.setImageResource(R.drawable.gragh40);
-                return;
+                break;
             case 3:
                 image.setImageResource(R.drawable.gragh50);
-                return;
+                break;
             case 4:
                 image.setImageResource(R.drawable.gragh60);
-                return;
+                break;
             case 5:
                 image.setImageResource(R.drawable.gragh80);
-                return;
+                break;
             case 6:
                 image.setImageResource(R.drawable.gragh80);
-                return;
+                break;
             case 7:
                 image.setImageResource(R.drawable.gragh80);
                 return;
@@ -133,6 +141,22 @@ public class SelectActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();
                 return;
         }
+        String stateString = partString + String.valueOf(state);
+        setButtonVisible(stateString, button);
+    }
+
+    private void setButtonVisible(final String stateString, final Button button) {
+        if (currentUser != null) {
+            Toast.makeText(getApplicationContext(), "visible", Toast.LENGTH_SHORT);
+            if (currentUser.getBoolean(stateString)) {
+                button.setVisibility(View.INVISIBLE);
+            } else {
+                button.setVisibility(View.VISIBLE);
+            }
+        } else {
+            Toast.makeText(getApplicationContext(), "Parse User is crashed", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     public void onClickA(View v){
@@ -176,9 +200,6 @@ public class SelectActivity extends AppCompatActivity {
                 startActivity(intent6);
                 return;
             case 7:
-                Intent intent7 = new Intent(SelectActivity.this, com.example.gushimakota.musico.EditApartActivity.class);
-                finish();
-                startActivity(intent7);
                 return;
 
         }
@@ -222,9 +243,6 @@ public class SelectActivity extends AppCompatActivity {
 //                startActivity(intent1);
                 return;
             case 7:
-                Intent intent7 = new Intent(SelectActivity.this, com.example.gushimakota.musico.CheckBpartActivity.class);
-                finish();
-                startActivity(intent7);
                 return;
         }
     }
@@ -274,10 +292,4 @@ public class SelectActivity extends AppCompatActivity {
         }
     }
 
-//    private void changeTheProgressimage(){
-//        setImageByState(imageA,aState);
-//        setImageByState(imageB,bState);
-//        setImageByState(imageC,cState);
-//        Toast.makeText(getApplicationContext(), String.valueOf(cState), Toast.LENGTH_LONG).show();
-//    }
 }

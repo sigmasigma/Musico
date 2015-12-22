@@ -41,5 +41,7 @@ public class CheckCpartActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 }

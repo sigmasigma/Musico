@@ -74,7 +74,8 @@
                     android:text="この部分に貢献する"
                     android:id="@+id/aButton"
                     android:layout_gravity="bottom|right"
-                    android:onClick="onClickA" />
+                    android:onClick="onClickA"
+                    android:visibility="invisible" />
             </LinearLayout>
         </LinearLayout>
 
@@ -130,7 +131,8 @@
                 android:text="この部分に貢献する"
                 android:id="@+id/bButton"
                     android:layout_gravity="bottom|right"
-                    android:onClick="onClickB" />
+                    android:onClick="onClickB"
+                    android:visibility="invisible" />
             </LinearLayout>
 
         </LinearLayout>
@@ -187,7 +189,8 @@
                     android:text="この部分に貢献する"
                     android:id="@+id/cButton"
                     android:layout_gravity="bottom|right"
-                    android:onClick="onClickC" />
+                    android:onClick="onClickC"
+                    android:visibility="invisible" />
             </LinearLayout>
 
         </LinearLayout>

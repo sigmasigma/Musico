@@ -10,11 +10,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 //時間に応じてstateを6にするのは未実装
 //音源回りは未実装
@@ -37,6 +39,8 @@ public class CheckFragment extends Fragment {
     private String mTrackObjectId;
     //評価してるパートのオブジェクトID
     private String mPartObjectId;
+    //パートの状態
+    private int mState;
 
     private TextView textPart;
     private TextView textOr;
@@ -85,7 +89,19 @@ public class CheckFragment extends Fragment {
         textPart = (TextView)v.findViewById(R.id.textPart);
         textPart.setText(mPart + " partチェック");
         setCheckButtonActions(v);
+        getPartState();
         return v;
+    }
+
+    private void getPartState(){
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Part");
+        query.getInBackground(mPartObjectId, new GetCallback<ParseObject>() {
+            public void done(ParseObject part, ParseException e) {
+                if (e == null) {
+                    mState = part.getInt("state");
+                }
+            }
+        });
     }
 
     //再生ボタンは未実装
@@ -225,6 +241,13 @@ public class CheckFragment extends Fragment {
                     }
                     object.put("checkScore", score);
                     object.saveInBackground();
+                    ParseUser user = ParseUser.getCurrentUser();
+//                    getPartState();
+
+                    //ここのプットが上手く言ってない、ユーザーの状態が変わらない・。・
+
+                    user.put(mPart+String.valueOf(mState),true);
+                    user.saveInBackground();
                     Intent goToNextIntent = new Intent(getContext(), com.example.gushimakota.musico.ThankYouActivity.class);
                     startActivity(goToNextIntent);
                     getActivity().finish();
@@ -238,8 +261,7 @@ public class CheckFragment extends Fragment {
         query.getInBackground(mPartObjectId, new GetCallback<ParseObject>() {
             public void done(ParseObject part, ParseException e) {
                 if (e == null) {
-                    int state = part.getInt("state");
-                    part.put("state", state - 1);
+                    part.put("state", mState - 1);
                     part.saveInBackground();
                 }
             }
@@ -251,8 +273,7 @@ public class CheckFragment extends Fragment {
         query.getInBackground(mPartObjectId, new GetCallback<ParseObject>() {
             public void done(ParseObject part, ParseException e) {
                 if (e == null) {
-                    int state = part.getInt("state");
-                    part.put("state",state+1);
+                    part.put("state",mState+1);
                     part.saveInBackground();
                 }
             }

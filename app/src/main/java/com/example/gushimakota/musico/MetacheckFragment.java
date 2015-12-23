@@ -16,6 +16,7 @@ import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 
 public class MetacheckFragment extends Fragment {
@@ -26,6 +27,8 @@ public class MetacheckFragment extends Fragment {
     private String partName;
     private String trackId;
     private String partId;
+
+    private ParseUser parseUser;
 
 //    private TextView debugText;
     private Button vote;
@@ -142,6 +145,8 @@ public class MetacheckFragment extends Fragment {
                 }
                 object.put("metaCheckScore", score);
                 object.saveInBackground();
+                parseUser = ParseUser.getCurrentUser();
+                parseUser.put(partName+"6", true);
                 Intent goToNextIntent = new Intent(getContext(), com.example.gushimakota.musico.ThankYouActivity.class);
                 startActivity(goToNextIntent);
                 getActivity().finish();

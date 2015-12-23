@@ -66,7 +66,7 @@ public class SelectActivity extends AppCompatActivity {
             public void done(ParseObject objectA, ParseException e) {
                 if (e == null) {
                     aState = objectA.getInt("state");
-                    setImageByState(imageA, aState, aButton, "a");
+                    setImageByState(imageA, aState, aButton, "A");
                 } else {
                     Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in APart.", Toast.LENGTH_LONG).show();
                 }
@@ -77,7 +77,7 @@ public class SelectActivity extends AppCompatActivity {
             public void done(ParseObject objectB, ParseException e) {
                 if (e == null) {
                     bState = objectB.getInt("state");
-                    setImageByState(imageB, bState, bButton, "b");
+                    setImageByState(imageB, bState, bButton, "B");
                 } else {
                     Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in BPart.", Toast.LENGTH_LONG).show();
                 }
@@ -88,7 +88,7 @@ public class SelectActivity extends AppCompatActivity {
             public void done(ParseObject objectC, ParseException e) {
                 if (e == null) {
                     cState = objectC.getInt("state");
-                    setImageByState(imageC, cState, cButton, "c");
+                    setImageByState(imageC, cState, cButton, "C");
                 } else {
                     Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in CPart.", Toast.LENGTH_LONG).show();
                 }
@@ -147,7 +147,7 @@ public class SelectActivity extends AppCompatActivity {
 
     private void setButtonVisible(final String stateString, final Button button) {
         if (currentUser != null) {
-            Toast.makeText(getApplicationContext(), "visible", Toast.LENGTH_SHORT);
+            Toast.makeText(getApplicationContext(), "visible", Toast.LENGTH_SHORT).show();
             if (currentUser.getBoolean(stateString)) {
                 button.setVisibility(View.INVISIBLE);
             } else {

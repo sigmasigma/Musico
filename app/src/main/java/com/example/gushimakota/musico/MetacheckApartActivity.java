@@ -41,7 +41,7 @@ public class MetacheckApartActivity extends AppCompatActivity  implements Metach
         allNogoodButton = (Button)findViewById(R.id.button_meta_a);
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Track");
         query.whereEqualTo("part", "A");
-//        query.whereEqualTo("check",false);
+        query.whereEqualTo("check",true);
 
         count = 0;
         checkNum = 0;

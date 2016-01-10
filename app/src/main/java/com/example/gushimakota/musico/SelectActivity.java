@@ -102,7 +102,8 @@ public class SelectActivity extends AppCompatActivity {
                 if (user != null) {
                     userName = user.getString("username");
                     userScore = user.getInt("Score");
-                    userText.setText("Hello " + userName + ", your SCORE is " + String.valueOf(userScore));
+                    userText.setText("Hello " + userName);
+//                    userText.setText("Hello " + userName + ", your SCORE is " + String.valueOf(userScore));
                 } else {
                     Toast.makeText(getApplicationContext(), "Parse User is crashed", Toast.LENGTH_LONG).show();
                 }
@@ -116,22 +117,22 @@ public class SelectActivity extends AppCompatActivity {
                 image.setImageResource(R.drawable.gragh0);
                 break;
             case 1:
-                image.setImageResource(R.drawable.gragh20);
+                image.setImageResource(R.drawable.gragh10);
                 break;
             case 2:
-                image.setImageResource(R.drawable.gragh40);
+                image.setImageResource(R.drawable.gragh20);
                 break;
             case 3:
-                image.setImageResource(R.drawable.gragh50);
+                image.setImageResource(R.drawable.gragh30);
                 break;
             case 4:
-                image.setImageResource(R.drawable.gragh60);
+                image.setImageResource(R.drawable.gragh40);
                 break;
             case 5:
-                image.setImageResource(R.drawable.gragh80);
+                image.setImageResource(R.drawable.gragh50);
                 break;
             case 6:
-                image.setImageResource(R.drawable.gragh80);
+                image.setImageResource(R.drawable.gragh60);
                 break;
             case 7:
                 image.setImageResource(R.drawable.gragh80);
@@ -141,18 +142,19 @@ public class SelectActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();
                 return;
         }
-        String stateString = partString + String.valueOf(state);
-        setButtonVisible(stateString, button);
+        setButtonVisible(partString, button, state);
     }
 
-    private void setButtonVisible(final String stateString, final Button button) {
+    private void setButtonVisible(final String partString, final Button button, int state) {
         if (currentUser != null) {
-            Toast.makeText(getApplicationContext(), "visible", Toast.LENGTH_SHORT).show();
-            if (currentUser.getBoolean(stateString)) {
+            if (currentUser.getBoolean(partString + String.valueOf(state))) {
                 button.setVisibility(View.INVISIBLE);
-            } else {
+            } else if(state %2 == 1 && currentUser.getBoolean(partString + String.valueOf(state-1))){
+                button.setVisibility(View.INVISIBLE);
+            }else {
                 button.setVisibility(View.VISIBLE);
             }
+            Toast.makeText(getApplicationContext(), partString + String.valueOf(state-1), Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(getApplicationContext(), "Parse User is crashed", Toast.LENGTH_LONG).show();
         }
@@ -238,9 +240,9 @@ public class SelectActivity extends AppCompatActivity {
                 startActivity(intent5);
                 return;
             case 6:
-//                Intent intent6 = new Intent(SelectActivity.this, com.example.gushimakota.musico.MetacheckBpartActivity.class);
-//                finish();
-//                startActivity(intent1);
+                Intent intent6 = new Intent(SelectActivity.this, com.example.gushimakota.musico.MetacheckBpartActivity.class);
+                finish();
+                startActivity(intent6);
                 return;
             case 7:
                 return;
@@ -280,9 +282,9 @@ public class SelectActivity extends AppCompatActivity {
                 startActivity(intent5);
                 return;
             case 6:
-//                Intent intent6 = new Intent(SelectActivity.this, com.example.gushimakota.musico.MetacheckCpartActivity.class);
-//                finish();
-//                startActivity(intent6);
+                Intent intent6 = new Intent(SelectActivity.this, com.example.gushimakota.musico.MetacheckCpartActivity.class);
+                finish();
+                startActivity(intent6);
                 return;
             case 7:
                 return;

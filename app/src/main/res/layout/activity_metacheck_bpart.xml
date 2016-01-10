@@ -7,18 +7,42 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.gushimakota.musico.MetacheckBpartActivity">
+    tools:context="com.example.gushimakota.musico.MetacheckApartActivity">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView8"
+            android:text="A part メタチェック"
+            android:layout_gravity="center"
+            android:textSize="20dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="すべてのトラックを一度聞くと"
+            android:id="@+id/textView9"
+            android:textSize="20dp"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="投票ボタンが現れます"
+            android:id="@+id/textView19"
+            android:layout_gravity="center"
+            android:textSize="20dp" />
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="wrap_content"
             android:id="@+id/container_meta_b"></LinearLayout>
 
         <Button
@@ -26,6 +50,14 @@
             android:layout_height="wrap_content"
             android:text="適するものはない"
             android:id="@+id/button_meta_b"
-            android:layout_gravity="center" />
+            android:layout_alignParentEnd="false"
+            android:layout_alignParentStart="false"
+            android:gravity="center"
+            android:layout_alignParentLeft="false"
+            android:layout_alignParentTop="true"
+            android:layout_gravity="center_horizontal|bottom"
+            android:visibility="gone" />
+
     </LinearLayout>
+
 </RelativeLayout>

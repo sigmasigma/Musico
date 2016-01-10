@@ -3,7 +3,9 @@ package com.example.gushimakota.musico;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -13,11 +15,13 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.io.IOException;
 
 public class MetacheckFragment extends Fragment {
     private static final String ARG_PART_NAME = "param5";
@@ -28,9 +32,15 @@ public class MetacheckFragment extends Fragment {
     private String trackId;
     private String partId;
 
+    private String strIdea;
+    private String ideaPath;
+
+    private MediaPlayer player;
+    private boolean playing;
+    private boolean init;
     private ParseUser parseUser;
 
-//    private TextView debugText;
+    //    private TextView debugText;
     private Button vote;
     private Button play;
 
@@ -59,6 +69,8 @@ public class MetacheckFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        playing = false;
+        init=false;
         if (getArguments() != null) {
             partName = getArguments().getString(ARG_PART_NAME);
             trackId = getArguments().getString(ARG_OBJECT_ID);
@@ -73,30 +85,67 @@ public class MetacheckFragment extends Fragment {
         vote = (Button)v.findViewById(R.id.vote);
         play = (Button)v.findViewById(R.id.play_for_checking_meta);
         checkPlay = false;
+        player = new MediaPlayer();
         setMetacheckButtonAction();
-
+        getUserInfo();
         return v;
+    }
+
+    private void getUserInfo(){
+        ParseUser.logInInBackground("gushi", "525", new LogInCallback() {
+            public void done(ParseUser user, ParseException e) {
+                if (user != null) {
+                } else {
+                    Toast.makeText(getActivity(), "Parse User is crashed", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     public void setMetacheckButtonAction(){
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (partName) {
-                    case "A":
-                        break;
-                    case "B":
-                        break;
-                    case "C":
-                        break;
-                    default:
-                        return;
-                }
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Track");
+                query.getInBackground(trackId, new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject object, ParseException e) {
+                        if (object != null) {
+                            if (!init){
+                                strIdea = object.getString("idea");
+                                ideaPath = Environment.getExternalStorageDirectory().getPath()+"/Musico/"+strIdea+".mp3";
+
+                                try {
+                                    player.setDataSource(ideaPath);
+                                    player.prepare();
+
+                                } catch (IOException e2) {
+                                    e2.printStackTrace();
+                                }
+                                init = true;
+                            }
+                            if (!playing) {
+//                                Resources res = getResources();
+
+//                                int resId = res.getIdentifier(object.getString("idea"), "raw", getActivity().getPackageName());
+//                                player = MediaPlayer.create(getActivity(), resId);
+//                                player.start();
+                                if (!checkPlay) {
+                                    mListener.onClickButton();
+                                    checkPlay = true;
+                                }
+                                player.start();
+                                play.setText("停止");
+                                playing = true;
+                            }else{
+                                play.setText("この部分を再生する");
+                                playing = false;
+                                player.pause();
+                            }
+                        }
+                    }
+                });
 //                agree.setVisibility(View.VISIBLE);
-                if (!checkPlay){
-                    mListener.onClickButton();
-                    checkPlay = true;
-                }
             }
         });
 
@@ -140,7 +189,7 @@ public class MetacheckFragment extends Fragment {
             public void done(ParseObject object, ParseException e) {
                 int score = object.getInt("metaCheckScore");
                 score = score + 1;
-                if (score > 3) {
+                if (score > 1) {
                     partStateForward();
                 }
                 object.put("metaCheckScore", score);

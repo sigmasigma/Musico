@@ -2,7 +2,10 @@ package com.example.gushimakota.musico;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -13,17 +16,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.parse.GetCallback;
+import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import java.io.IOException;
+
 //時間に応じてstateを6にするのは未実装
 //音源回りは未実装
 
-
 public class CheckFragment extends Fragment {
-
 
     private static final String APART_ID = "exofgfV3QJ";
     private static final String BPART_ID = "fc1U1VvuGq";
@@ -32,6 +36,12 @@ public class CheckFragment extends Fragment {
     private static final String ARG_PART = "param3";
     //チェックするオブジェクトのID
     private static final String ARG_OBJECTID = "param4";
+
+    private MediaPlayer player;
+    private String strIdea;
+    private String ideaPath;
+    private boolean playing;
+    private boolean init;
 
     //どのパートか
     private String mPart;
@@ -64,6 +74,7 @@ public class CheckFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        playing = false;
         if (getArguments() != null) {
             mPart = getArguments().getString(ARG_PART);
             mTrackObjectId = getArguments().getString(ARG_OBJECTID);
@@ -90,7 +101,19 @@ public class CheckFragment extends Fragment {
         textPart.setText(mPart + " partチェック");
         setCheckButtonActions(v);
         getPartState();
+        getUserInfo();
         return v;
+    }
+
+    private void getUserInfo(){
+        ParseUser.logInInBackground("gushi", "525", new LogInCallback() {
+            public void done(ParseUser user, ParseException e) {
+                if (user != null) {
+                } else {
+                    Toast.makeText(getActivity(), "Parse User is crashed", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void getPartState(){
@@ -111,29 +134,49 @@ public class CheckFragment extends Fragment {
         good = (Button)v.findViewById(R.id.good);
         textEstimate = (TextView)v.findViewById(R.id.textPleaseEstimate);
         textOr = (TextView)v.findViewById(R.id.textOr);
+        player = new MediaPlayer();
         play.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (mPart) {
-                    case "A":
+                ParseQuery<ParseObject> query = ParseQuery.getQuery("Track");
+                query.getInBackground(mTrackObjectId, new GetCallback<ParseObject>() {
+                    @Override
+                    public void done(ParseObject object, ParseException e) {
+                        if (object != null) {
+                            if (!init){
+                                Resources res = getResources();
+                                strIdea = object.getString("idea");
+                                ideaPath = Environment.getExternalStorageDirectory().getPath()+"/Musico/"+strIdea +".mp3";
+                                try {
+                                    player.setDataSource(ideaPath);
+                                    player.prepare();
+                                } catch (IOException e2) {
+                                    e2.printStackTrace();
+                                }
+                                init=true;
+                            }
+                            if (!playing) {
 
-                        break;
-                    case "B":
-
-                        break;
-                    case "C":
-
-                        break;
-                    default:
-                        return;
-                }
-                bad.setVisibility(View.VISIBLE);
-                good.setVisibility(View.VISIBLE);
-                textEstimate.setVisibility(View.VISIBLE);
-                textOr.setVisibility(View.VISIBLE);
+//                                int resId = res.getIdentifier(strIdea, "raw", getActivity().getPackageName());
+//                                player = MediaPlayer.create(getActivity(), resId);
+//                                player.start();
+                                bad.setVisibility(View.VISIBLE);
+                                good.setVisibility(View.VISIBLE);
+                                textEstimate.setVisibility(View.VISIBLE);
+                                textOr.setVisibility(View.VISIBLE);
+                                player.start();
+                                play.setText("停止");
+                                playing = true;
+                            }else{
+                                playing = false;
+                                play.setText("この部分を再生する");
+                                player.pause();
+                            }
+                        }
+                    }
+                });
             }
         });
-
         bad.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -242,10 +285,6 @@ public class CheckFragment extends Fragment {
                     object.put("checkScore", score);
                     object.saveInBackground();
                     ParseUser user = ParseUser.getCurrentUser();
-//                    getPartState();
-
-                    //ここのプットが上手く言ってない、ユーザーの状態が変わらない・。・
-
                     user.put(mPart+String.valueOf(mState),true);
                     user.saveInBackground();
                     Intent goToNextIntent = new Intent(getContext(), com.example.gushimakota.musico.ThankYouActivity.class);
@@ -273,19 +312,7 @@ public class CheckFragment extends Fragment {
         query.getInBackground(mPartObjectId, new GetCallback<ParseObject>() {
             public void done(ParseObject part, ParseException e) {
                 if (e == null) {
-                    part.put("state",mState+1);
-                    part.saveInBackground();
-                }
-            }
-        });
-    }
-
-    private void changePartState6(){
-        ParseQuery<ParseObject> query = ParseQuery.getQuery("Part");
-        query.getInBackground(mPartObjectId, new GetCallback<ParseObject>() {
-            public void done(ParseObject part, ParseException e) {
-                if (e == null) {
-                    part.put("state",6);
+                    part.put("state", mState + 1);
                     part.saveInBackground();
                 }
             }

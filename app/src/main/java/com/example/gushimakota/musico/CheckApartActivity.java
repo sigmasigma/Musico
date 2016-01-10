@@ -28,7 +28,6 @@ public class CheckApartActivity extends AppCompatActivity {
             public void done(List<ParseObject> objects, ParseException e) {
                 if (objects != null){
                     ParseObject object = objects.get(0);
-
                     CheckFragment fragment = CheckFragment.newInstance("A",object.getObjectId());
                     FragmentManager manager = getSupportFragmentManager();
                     FragmentTransaction transaction = manager.beginTransaction();

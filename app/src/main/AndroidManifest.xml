@@ -36,6 +36,7 @@
         <activity android:name=".ThankYouActivity" />
         <activity android:name=".MetacheckApartActivity" />
         <activity android:name=".MetacheckBpartActivity" />
+        <activity android:name=".ProjectEndActivity" />
         <activity android:name=".MetacheckCpartActivity"></activity>
     </application>
 </manifest>

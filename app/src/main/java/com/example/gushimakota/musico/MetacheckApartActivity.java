@@ -142,7 +142,6 @@ public class MetacheckApartActivity extends AppCompatActivity  implements Metach
                 }
             }
         });
-
     }
 
     private void partStateBackToZero(){
@@ -155,6 +154,20 @@ public class MetacheckApartActivity extends AppCompatActivity  implements Metach
                 if (e == null) {
                     part.put("state", 0);
                     part.saveInBackground();
+                }
+            }
+        });
+        ParseQuery<ParseObject> queryUser = ParseQuery.getQuery("User");
+        queryUser.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (objects != null) {
+                    for (ParseObject user : objects) {
+                        for (int i = 0;i<6;i++) {
+                            user.put("A" + String.valueOf(i), false);
+                        }
+                        user.saveInBackground();
+                    }
                 }
             }
         });

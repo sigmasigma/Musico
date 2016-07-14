@@ -7,8 +7,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
@@ -19,10 +19,14 @@ import com.parse.ParseUser;
 
 public class SelectActivity extends AppCompatActivity {
 
+
     private static final String APART_ID = "exofgfV3QJ";
     private static final String BPART_ID = "fc1U1VvuGq";
     private static final String CPART_ID = "vCPCvVv5Z6";
 
+    private LinearLayout l1;
+    private LinearLayout l2;
+    private LinearLayout l3;
     //進捗グラフのイメージビュー
     private ImageView imageA;
     private ImageView imageB;
@@ -39,9 +43,14 @@ public class SelectActivity extends AppCompatActivity {
     private ParseUser currentUser;
     private String userName;
     private int userScore;
+
     private TextView userText;
-
-
+    private TextView dangerText1;
+    private TextView dangerText2;
+    private TextView dangerText3;
+    private TextView stateTextA;
+    private TextView stateTextB;
+    private TextView stateTextC;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +63,15 @@ public class SelectActivity extends AppCompatActivity {
         aButton = (Button)findViewById(R.id.aButton);
         bButton = (Button)findViewById(R.id.bButton);
         cButton = (Button)findViewById(R.id.cButton);
+        l1 = (LinearLayout)findViewById(R.id.s1);
+        l2 = (LinearLayout)findViewById(R.id.s2);
+        l3 = (LinearLayout)findViewById(R.id.s3);
+        dangerText1 = (TextView)findViewById(R.id.danger1);
+        dangerText2 = (TextView)findViewById(R.id.danger2);
+        dangerText3 = (TextView)findViewById(R.id.danger3);
+        stateTextA = (TextView)findViewById(R.id.ApartState);
+        stateTextB = (TextView)findViewById(R.id.BpartState);
+        stateTextC = (TextView)findViewById(R.id.CpartState);
 
         getUserInfo();
         currentUser = ParseUser.getCurrentUser();
@@ -66,10 +84,16 @@ public class SelectActivity extends AppCompatActivity {
             public void done(ParseObject objectA, ParseException e) {
                 if (e == null) {
                     aState = objectA.getInt("state");
-                    setImageByState(imageA, aState, aButton, "A");
+                    setImageByState(imageA, aState, aButton, "A",stateTextA);
+                    if (objectA.getBoolean("danger")){
+                        l1.setBackgroundColor(0xff900000);
+                        dangerText1.setVisibility(View.VISIBLE);
+                    }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in APart.", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in APart.", Toast.LENGTH_LONG).show();
+                    getPartStates();
                 }
+
             }
         });
         ParseQuery<ParseObject> queryB = ParseQuery.getQuery("Part");
@@ -77,9 +101,14 @@ public class SelectActivity extends AppCompatActivity {
             public void done(ParseObject objectB, ParseException e) {
                 if (e == null) {
                     bState = objectB.getInt("state");
-                    setImageByState(imageB, bState, bButton, "B");
+                    setImageByState(imageB, bState, bButton, "B",stateTextB);
+                    if (objectB.getBoolean("danger")){
+                        l2.setBackgroundColor(0xff900000);
+                        dangerText2.setVisibility(View.VISIBLE);
+                    }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in BPart.", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in BPart.", Toast.LENGTH_LONG).show();
+                    getPartStates();
                 }
             }
         });
@@ -88,16 +117,21 @@ public class SelectActivity extends AppCompatActivity {
             public void done(ParseObject objectC, ParseException e) {
                 if (e == null) {
                     cState = objectC.getInt("state");
-                    setImageByState(imageC, cState, cButton, "C");
+                    setImageByState(imageC, cState, cButton, "C", stateTextC);
+                    if (objectC.getBoolean("danger")){
+                        l3.setBackgroundColor(0xff900000);
+                        dangerText3.setVisibility(View.VISIBLE);
+                    }
                 } else {
-                    Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in CPart.", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in CPart.", Toast.LENGTH_LONG).show();
+                    getPartStates();
                 }
             }
         });
     }
 
     private void getUserInfo(){
-        ParseUser.logInInBackground("gushi", "525", new LogInCallback() {
+        ParseUser.logInInBackground(getString(R.string.username), getString(R.string.userpass), new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
                     userName = user.getString("username");
@@ -105,41 +139,50 @@ public class SelectActivity extends AppCompatActivity {
                     userText.setText("Hello " + userName);
 //                    userText.setText("Hello " + userName + ", your SCORE is " + String.valueOf(userScore));
                 } else {
-                    Toast.makeText(getApplicationContext(), "Parse User is crashed", Toast.LENGTH_LONG).show();
+//                    Toast.makeText(getApplicationContext(), "Parse User is crashed", Toast.LENGTH_LONG).show();
+                    getUserInfo();
                 }
             }
         });
     }
 
-    private void setImageByState(ImageView image,int state, Button button, String partString){
+    private void setImageByState(ImageView image,int state, Button button, String partString, TextView stateText){
         switch (state){
             case 0:
                 image.setImageResource(R.drawable.gragh0);
+                stateText.setText("作曲");
                 break;
             case 1:
                 image.setImageResource(R.drawable.gragh10);
+                stateText.setText("チェック");
                 break;
             case 2:
                 image.setImageResource(R.drawable.gragh20);
+                stateText.setText("作曲");
                 break;
             case 3:
-                image.setImageResource(R.drawable.gragh30);
+                image.setImageResource(R.drawable.gragh40);
+                stateText.setText("チェック");
                 break;
             case 4:
-                image.setImageResource(R.drawable.gragh40);
+                image.setImageResource(R.drawable.gragh50);
+                stateText.setText("作曲");
                 break;
             case 5:
-                image.setImageResource(R.drawable.gragh50);
+                image.setImageResource(R.drawable.gragh60);
+                stateText.setText("チェック");
                 break;
             case 6:
-                image.setImageResource(R.drawable.gragh60);
+                image.setImageResource(R.drawable.gragh80);
+                stateText.setText("メタチェック");
                 break;
             case 7:
-                image.setImageResource(R.drawable.gragh80);
+                image.setImageResource(R.drawable.graph100);
+                stateText.setText("完了");
                 return;
 
             default:
-                Toast.makeText(getApplicationContext(), "Maybe Parse is crashed.", Toast.LENGTH_LONG).show();
+                getPartStates();
                 return;
         }
         setButtonVisible(partString, button, state);
@@ -154,9 +197,9 @@ public class SelectActivity extends AppCompatActivity {
             }else {
                 button.setVisibility(View.VISIBLE);
             }
-            Toast.makeText(getApplicationContext(), partString + String.valueOf(state-1), Toast.LENGTH_SHORT).show();
         } else {
-            Toast.makeText(getApplicationContext(), "Parse User is crashed", Toast.LENGTH_LONG).show();
+//            Toast.makeText(getApplicationContext(), "Parse User is crashed", Toast.LENGTH_LONG).show();
+            getPartStates();
         }
 
     }
@@ -289,7 +332,6 @@ public class SelectActivity extends AppCompatActivity {
             case 7:
                 return;
             default:
-                Toast.makeText(getApplicationContext(), "Maybe Parse is crashed in C part.", Toast.LENGTH_LONG).show();
                 return;
         }
     }

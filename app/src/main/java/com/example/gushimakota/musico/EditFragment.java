@@ -91,7 +91,7 @@ public class EditFragment extends Fragment {
         }
     }
     private void getUserInfo(){
-        ParseUser.logInInBackground("gushi", "525", new LogInCallback() {
+        ParseUser.logInInBackground(getString(R.string.username), getString(R.string.userpass), new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
                 } else {

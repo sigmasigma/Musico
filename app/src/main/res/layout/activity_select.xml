@@ -27,7 +27,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/frame"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:id="@+id/s1">
 
             <LinearLayout
                 android:orientation="vertical"
@@ -68,6 +69,19 @@
                     android:id="@+id/aPartexplain"
                     android:layout_weight="1" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="A"
+                    android:id="@+id/ApartState" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="早急に作業をお願いします"
+                    android:id="@+id/danger1"
+                    android:visibility="invisible" />
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -85,7 +99,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/frame"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:id="@+id/s2">
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="0dp"
@@ -125,6 +140,19 @@
                 android:id="@+id/bPartexplain"
                 android:layout_weight="1" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/BpartState"
+                    android:text="B" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="早急に作業をお願いします"
+                    android:id="@+id/danger2"
+                    android:visibility="invisible" />
+
                 <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -143,7 +171,8 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/frame"
-            android:padding="5dp">
+            android:padding="5dp"
+            android:id="@+id/s3">
             <LinearLayout
                 android:orientation="vertical"
                 android:layout_width="0dp"
@@ -183,6 +212,19 @@
                     android:id="@+id/cPartexplain"
                     android:layout_weight="1" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="C"
+                    android:id="@+id/CpartState" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="早急に作業をお願いします"
+                    android:id="@+id/danger3"
+                    android:visibility="invisible" />
+
                 <Button
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -196,11 +238,6 @@
         </LinearLayout>
 
 
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
     </LinearLayout>
 
 </RelativeLayout>

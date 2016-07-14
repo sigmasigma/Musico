@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -23,6 +24,7 @@ import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
 import java.io.IOException;
+import java.util.List;
 
 //時間に応じてstateを6にするのは未実装
 //音源回りは未実装
@@ -106,7 +108,7 @@ public class CheckFragment extends Fragment {
     }
 
     private void getUserInfo(){
-        ParseUser.logInInBackground("gushi", "525", new LogInCallback() {
+        ParseUser.logInInBackground(getString(R.string.username), getString(R.string.userpass), new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
                 } else {
@@ -143,17 +145,17 @@ public class CheckFragment extends Fragment {
                     @Override
                     public void done(ParseObject object, ParseException e) {
                         if (object != null) {
-                            if (!init){
+                            if (!init) {
                                 Resources res = getResources();
                                 strIdea = object.getString("idea");
-                                ideaPath = Environment.getExternalStorageDirectory().getPath()+"/Musico/"+strIdea +".mp3";
+                                ideaPath = Environment.getExternalStorageDirectory().getPath() + "/Musico/" + strIdea + ".mp3";
                                 try {
                                     player.setDataSource(ideaPath);
                                     player.prepare();
                                 } catch (IOException e2) {
                                     e2.printStackTrace();
                                 }
-                                init=true;
+                                init = true;
                             }
                             if (!playing) {
 
@@ -167,7 +169,7 @@ public class CheckFragment extends Fragment {
                                 player.start();
                                 play.setText("停止");
                                 playing = true;
-                            }else{
+                            } else {
                                 playing = false;
                                 play.setText("この部分を再生する");
                                 player.pause();
@@ -296,6 +298,19 @@ public class CheckFragment extends Fragment {
     }
 
     private void partStateBack(){
+        ParseQuery<ParseObject> queryUser = ParseQuery.getQuery("User");
+        queryUser.findInBackground(new FindCallback<ParseObject>() {
+            @Override
+            public void done(List<ParseObject> objects, ParseException e) {
+                if (objects != null){
+                    for (ParseObject user: objects){
+                        user.put(mPart+String.valueOf(mState),false);
+                        user.put(mPart+String.valueOf(mState-1),false);
+                        user.saveInBackground();
+                    }
+                }
+            }
+        });
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Part");
         query.getInBackground(mPartObjectId, new GetCallback<ParseObject>() {
             public void done(ParseObject part, ParseException e) {
@@ -312,7 +327,12 @@ public class CheckFragment extends Fragment {
         query.getInBackground(mPartObjectId, new GetCallback<ParseObject>() {
             public void done(ParseObject part, ParseException e) {
                 if (e == null) {
-                    part.put("state", mState + 1);
+                    if (part.getBoolean("danger")){
+                        part.put("state",6);
+                        part.put("danger",false);
+                    }else{
+                        part.put("state", mState + 1);
+                    }
                     part.saveInBackground();
                 }
             }

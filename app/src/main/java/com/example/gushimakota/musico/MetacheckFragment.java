@@ -18,6 +18,7 @@ import com.parse.GetCallback;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
+import com.parse.ParsePush;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -28,9 +29,17 @@ public class MetacheckFragment extends Fragment {
     private static final String ARG_OBJECT_ID = "param6";
     private static final String ARG_PART_ID = "param7";
 
+    private static final String APART_ID = "exofgfV3QJ";
+    private static final String BPART_ID = "fc1U1VvuGq";
+    private static final String CPART_ID = "vCPCvVv5Z6";
+
     private String partName;
     private String trackId;
     private String partId;
+
+    private int aState;
+    private int bState;
+    private int cState;
 
     private String strIdea;
     private String ideaPath;
@@ -87,16 +96,16 @@ public class MetacheckFragment extends Fragment {
         checkPlay = false;
         player = new MediaPlayer();
         setMetacheckButtonAction();
-        getUserInfo();
+//        getUserInfo();
         return v;
     }
 
     private void getUserInfo(){
-        ParseUser.logInInBackground("gushi", "525", new LogInCallback() {
+        ParseUser.logInInBackground(getString(R.string.username), getString(R.string.userpass), new LogInCallback() {
             public void done(ParseUser user, ParseException e) {
                 if (user != null) {
                 } else {
-                    Toast.makeText(getActivity(), "Parse User is crashed", Toast.LENGTH_LONG).show();
+                    getUserInfo();
                 }
             }
         });
@@ -189,13 +198,14 @@ public class MetacheckFragment extends Fragment {
             public void done(ParseObject object, ParseException e) {
                 int score = object.getInt("metaCheckScore");
                 score = score + 1;
-                if (score > 1) {
+                if (score > 2) {
                     partStateForward();
                 }
                 object.put("metaCheckScore", score);
                 object.saveInBackground();
                 parseUser = ParseUser.getCurrentUser();
-                parseUser.put(partName+"6", true);
+                parseUser.put(partName + "6", true);
+                parseUser.saveInBackground();
                 Intent goToNextIntent = new Intent(getContext(), com.example.gushimakota.musico.ThankYouActivity.class);
                 startActivity(goToNextIntent);
                 getActivity().finish();
@@ -208,11 +218,50 @@ public class MetacheckFragment extends Fragment {
         query.getInBackground(partId, new GetCallback<ParseObject>() {
             public void done(ParseObject part, ParseException e) {
                 if (e == null) {
-                    int state = part.getInt("state");
-                    part.put("state", state + 1);
+                    part.put("state", 7);
                     part.saveInBackground();
                 } else {
                     Toast.makeText(getContext(),"parse error",Toast.LENGTH_SHORT);
+                }
+
+            }
+        });
+
+        ParsePush push = new ParsePush();
+        push.setMessage("クラウドによる"+partName+"パートの作曲が完了しました。");
+        push.sendInBackground();
+    }
+
+    private void getState(){
+        ParseQuery<ParseObject> queryA = ParseQuery.getQuery("Part");
+        queryA.getInBackground(APART_ID, new GetCallback<ParseObject>() {
+            public void done(ParseObject objectA, ParseException e) {
+                if (e== null){
+                    aState = objectA.getInt("State");
+                }else{
+                    getState();
+                }
+
+            }
+        });
+        ParseQuery<ParseObject> queryB = ParseQuery.getQuery("Part");
+        queryB.getInBackground(BPART_ID, new GetCallback<ParseObject>() {
+            public void done(ParseObject objectB, ParseException e) {
+                if (e== null) {
+                    bState = objectB.getInt("state");
+                }else{
+                    getState();
+                }
+
+            }
+        });
+        ParseQuery<ParseObject> queryC = ParseQuery.getQuery("Part");
+        queryC.getInBackground(CPART_ID, new GetCallback<ParseObject>() {
+            public void done(ParseObject objectC, ParseException e) {
+                if (e == null) {
+                    cState = objectC.getInt("state");
+                } else {
+                    getState();
                 }
             }
         });
